@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gmail Setup - Portfolio Email Configuration</title>
+    <style>
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            padding: 40px;
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        h2 {
+            font-size: 20px;
+            margin: 30px 0 15px 0;
+            color: #60a5fa;
+            border-left: 3px solid #3b82f6;
+            padding-left: 15px;
+        }
+        .step {
+            background: rgba(59, 130, 246, 0.05);
+            border-left: 3px solid #3b82f6;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        .step-number {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: 700;
+        }
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        ol {
+            margin-left: 40px;
+            margin-top: 10px;
+        }
+        li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        .warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 3px solid #f59e0b;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .warning-title {
+            color: #f59e0b;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .code-block {
+            background: #0a0a0a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 10px 0;
+            color: #10b981;
+        }
+        .button {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin: 10px 10px 10px 0;
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+        }
+        .success {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10b981;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .success-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        th {
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+        }
+        .highlight {
+            background: rgba(255, 255, 0, 0.2);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📧 Gmail Email Setup Guide</h1>
+        <p style="color: #aaa; margin-bottom: 20px;">Configure your portfolio to send automatic email notifications when new projects are added</p>
+
+        <div class="warning">
+            <div class="warning-title">⚠️ Important</div>
+            <p>You must complete these steps for emails to work. The process takes about 5 minutes.</p>
+        </div>
+
+        <h2>Step 1: Enable 2-Step Verification</h2>
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-title">Go to Google Account Settings</div>
+            <ol>
+                <li>Visit <a href="https://myaccount.google.com" target="_blank" style="color: #3b82f6;">myaccount.google.com</a></li>
+                <li>Click <span class="highlight">Security</span> in the left sidebar</li>
+                <li>Look for <span class="highlight">How you sign in to Google</span></li>
+                <li>Click <span class="highlight">2-Step Verification</span></li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-title">Follow the Verification Steps</div>
+            <ol>
+                <li>Google will ask for your password (enter it)</li>
+                <li>Verify using your phone number or backup code</li>
+                <li>Complete all prompts</li>
+                <li>You'll see a confirmation message</li>
+            </ol>
+        </div>
+
+        <h2>Step 2: Generate App Password</h2>
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-title">Access App Passwords Settings</div>
+            <ol>
+                <li>Go to <a href="https://myaccount.google.com/apppasswords" target="_blank" style="color: #3b82f6;">myaccount.google.com/apppasswords</a></li>
+                <li>You may need to sign in again</li>
+                <li>Select these options:
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li><span class="highlight">App:</span> Mail</li>
+                        <li><span class="highlight">Device:</span> Windows Computer</li>
+                    </ul>
+                </li>
+                <li>Click <span class="highlight">Generate</span></li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-title">Copy Your App Password</div>
+            <p style="margin-bottom: 10px;">Google will show a <strong>16-character password</strong> like this:</p>
+            <div class="code-block">ywvi fygj aoyf swtu</div>
+            <p style="margin-top: 10px; color: #f59e0b;">⚠️ <strong>Copy this password now!</strong> It will only show once.</p>
+        </div>
+
+        <h2>Step 3: Update Server Configuration</h2>
+        <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-title">Edit server.js File</div>
+            <ol>
+                <li>Open the file <span class="highlight">server.js</span> in your code editor</li>
+                <li>Find this line (around line 18):
+                    <div class="code-block" style="margin: 10px 0;">const EMAIL_PASSWORD = process.env.GMAIL_APP_PASSWORD || 'YOUR_16_CHAR_APP_PASSWORD_HERE';</div>
+                </li>
+                <li>Replace <span class="highlight">YOUR_16_CHAR_APP_PASSWORD_HERE</span> with the 16-character password from Step 4</li>
+                <li>Example:
+                    <div class="code-block" style="margin: 10px 0;">const EMAIL_PASSWORD = 'ywvi fygj aoyf swtu';</div>
+                </li>
+                <li><strong>Save the file</strong></li>
+            </ol>
+        </div>
+
+        <h2>Step 4: Restart Server</h2>
+        <div class="step">
+            <div class="step-number">6</div>
+            <div class="step-title">Restart Node.js Server</div>
+            <ol>
+                <li>Open PowerShell or Terminal</li>
+                <li>Run this command:
+                    <div class="code-block">taskkill /IM node.exe /F && node server.js</div>
+                </li>
+                <li>You should see: <span style="color: #10b981;">✅ Email service ready</span></li>
+            </ol>
+        </div>
+
+        <h2>Step 5: Test It!</h2>
+        <div class="step">
+            <div class="step-number">7</div>
+            <div class="step-title">Add a Test Project</div>
+            <ol>
+                <li>Go to <a href="http://localhost:3000/admin-project-manager.html" target="_blank" style="color: #3b82f6;">Admin Project Manager</a></li>
+                <li>Click <span class="highlight">+ Add New Project</span></li>
+                <li>Fill in project details</li>
+                <li>Click <span class="highlight">Save Project</span></li>
+                <li>Check your email at <span class="highlight">vishwashtak977@gmail.com</span></li>
+            </ol>
+        </div>
+
+        <div class="success">
+            <div class="success-title">✅ Email Notification Contents</div>
+            <p>When you add a project, you'll receive a professional email with:</p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>✨ Project title and description</li>
+                <li>🔗 Project link</li>
+                <li>🛠️ Technologies used</li>
+                <li>🖼️ Project preview image</li>
+                <li>📅 Date and time added</li>
+                <li>🆔 Project ID</li>
+            </ul>
+        </div>
+
+        <h2>Troubleshooting</h2>
+        <table>
+            <tr>
+                <th>Problem</th>
+                <th>Solution</th>
+            </tr>
+            <tr>
+                <td>❌ "Invalid login" error</td>
+                <td>Make sure you used an <strong>App Password</strong>, not your regular Gmail password</td>
+            </tr>
+            <tr>
+                <td>📨 Not receiving emails</td>
+                <td>Check your spam/promotions folder, or add vishwashtak977@gmail.com to contacts</td>
+            </tr>
+            <tr>
+                <td>2-Step Verification not available</td>
+                <td>Enable it first in Security settings before generating App Password</td>
+            </tr>
+            <tr>
+                <td>Server won't restart</td>
+                <td>Kill any existing node processes: <div class="code-block">taskkill /IM node.exe /F</div></td>
+            </tr>
+        </table>
+
+        <h2>Security & Privacy</h2>
+        <div class="warning">
+            <div class="warning-title">🔒 Keep Your App Password Safe</div>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Never share your App Password publicly</li>
+                <li>It's different from your main Gmail password</li>
+                <li>You can revoke it anytime in Google Account settings</li>
+                <li>Never commit server.js with real credentials to GitHub (use environment variables instead)</li>
+            </ul>
+        </div>
+
+        <h2>Using Environment Variables (Advanced)</h2>
+        <p style="margin: 10px 0; color: #aaa;">For production, use environment variables instead of hardcoding:</p>
+        <div class="code-block">
+# In PowerShell:
+$env:GMAIL_APP_PASSWORD = "your_16_char_app_password"
+node server.js
+
+# Or create .env file and use dotenv package
+        </div>
+
+        <h2>Need Help?</h2>
+        <p style="margin: 20px 0;">
+            <a href="https://support.google.com/mail/answer/185833" target="_blank" class="button">📖 Google's Official Guide</a>
+            <a href="https://support.google.com/accounts/answer/3466521" target="_blank" class="button">🔐 App Passwords Help</a>
+        </p>
+
+        <hr style="border: none; border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 30px 0;">
+        <p style="text-align: center; color: #666; font-size: 14px;">
+            © 2026 Vishwash Tak Portfolio | Email Setup Guide
+        </p>
+    </div>
+</body>
+</html>

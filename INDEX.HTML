@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>VISHWASH TAK - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Global Navbar CSS -->
+    <link rel="stylesheet" href="global-navbar.css">
+    <!-- Visitor Tracking -->
+    <script src="visitor-tracker.js"></script>
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="navbar.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        * {
+            font-family: 'Inter', 'Geist', 'Geist Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        :root {
+            --background: #0a0a0a;
+            --foreground: #fafafa;
+            --card: #1a1a1a;
+            --accent: #3b82f6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--foreground);
+            overflow-x: hidden;
+        }
+
+        /* ===== PROFESSIONAL ENTRANCE ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== PREMIUM HOVER ANIMATIONS ===== */
+        @keyframes smoothGlowPulse {
+            0% {
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.2), 0 0 40px rgba(59, 130, 246, 0);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(59, 130, 246, 0.4), 0 0 80px rgba(59, 130, 246, 0.2);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.2), 0 0 40px rgba(59, 130, 246, 0);
+            }
+        }
+
+        @keyframes cardTilt {
+            0%, 100% {
+                transform: perspective(1200px) rotateX(0deg) rotateY(0deg);
+            }
+            50% {
+                transform: perspective(1200px) rotateX(5deg) rotateY(3deg);
+            }
+        }
+
+        @keyframes borderShimmer {
+            0% {
+                box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.1), 0 0 20px rgba(59, 130, 246, 0.1);
+            }
+            50% {
+                box-shadow: inset 0 0 25px rgba(59, 130, 246, 0.3), 0 0 50px rgba(59, 130, 246, 0.25);
+            }
+            100% {
+                box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.1), 0 0 20px rgba(59, 130, 246, 0.1);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+
+        @keyframes subtleRotate {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(1deg); }
+        }
+
+        @keyframes imageEnhance {
+            from {
+                filter: brightness(1) contrast(1) saturate(0.9);
+                transform: scale(1);
+            }
+            to {
+                filter: brightness(1.3) contrast(1.15) saturate(1.2);
+                transform: scale(1.08);
+            }
+        }
+
+        @keyframes glowExpand {
+            0% {
+                box-shadow: 0 0 0px rgba(59, 130, 246, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(59, 130, 246, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 0px rgba(59, 130, 246, 0.3);
+            }
+        }
+
+        @keyframes lightBeam {
+            0% {
+                opacity: 0;
+                background-position: -200% 50%;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                background-position: 200% 50%;
+            }
+        }
+
+        @keyframes softPulse {
+            0%, 100% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scrollUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100%); }
+        }
+
+        /* Animation Utilities */
+        .animate-fadeInUp {
+            animation: fadeInUp 0.4s ease-out forwards;
+        }
+
+        .animate-fadeInDown {
+            animation: fadeInDown 0.4s ease-out forwards;
+        }
+
+        .animate-fadeInLeft {
+            animation: fadeInLeft 0.4s ease-out forwards;
+        }
+
+        .animate-fadeInRight {
+            animation: fadeInRight 0.4s ease-out forwards;
+        }
+
+        .animate-scaleIn {
+            animation: scaleIn 0.4s ease-out forwards;
+        }
+
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        /* Stagger animations - reduced delays for faster load */
+        .animate-stagger-1 { animation-delay: 0.05s; }
+        .animate-stagger-2 { animation-delay: 0.1s; }
+        .animate-stagger-3 { animation-delay: 0.15s; }
+        .animate-stagger-4 { animation-delay: 0.2s; }
+        .animate-stagger-5 { animation-delay: 0.25s; }
+        .animate-stagger-6 { animation-delay: 0.3s; }
+
+        /* Navigation Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 12px 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-logo {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar-menu a {
+            color: #999;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .navbar-menu a:hover {
+            color: #3b82f6;
+        }
+
+        .navbar-menu a.active {
+            color: #3b82f6;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 2px;
+        }
+
+        /* ===== HOME PAGE NAVBAR ===== */
+        .home-navbar {
+            position: fixed;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 78%;
+            height: 72px;
+            background: rgba(60, 60, 60, 0.85);
+            backdrop-filter: blur(15px);
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            will-change: auto;
+            contain: layout style paint;
+        }
+
+        /* Mobile navbar */
+        @media (max-width: 767px) {
+            .home-navbar {
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 60px;
+                border-radius: 0;
+                background: rgba(10, 10, 10, 0.95);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        .nav-time {
+            font-family: 'Inter', monospace, sans-serif;
+            font-size: 15px;
+            letter-spacing: 0.8px;
+            will-change: auto;
+        }
+
+        @media (max-width: 767px) {
+            .nav-time {
+                font-size: 13px;
+                letter-spacing: 0.5px;
+            }
+        }
+
+        .menu-btn {
+            position: absolute;
+            right: 18px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            touch-action: manipulation;
+            will-change: auto;
+        }
+
+        .menu-btn:active {
+            transform: scale(0.95);
+            background: rgba(59, 130, 246, 0.3);
+        }
+
+        @media (max-width: 767px) {
+            .menu-btn {
+                right: 12px;
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+                min-height: 48px;
+                min-width: 48px;
+            }
+        }
+
+        .menu-btn.open {
+            transform: rotate(90deg);
+        }
+
+        .menu-dropdown {
+            position: fixed;
+            top: 110px;
+            right: 11%;
+            background: rgba(53, 53, 53, 0.98);
+            backdrop-filter: blur(12px);
+            padding: 12px 16px;
+            border-radius: 12px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 998;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeSlide 0.2s ease;
+        }
+
+        @media (max-width: 767px) {
+            .menu-dropdown {
+                top: 70px;
+                right: 8px;
+                padding: 12px 16px;
+                gap: 8px;
+                border-radius: 12px;
+                min-width: 160px;
+            }
+        }
+
+        .menu-dropdown a {
+            color: #e5e7eb;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            display: block;
+            white-space: nowrap;
+        }
+
+        .menu-dropdown a:active {
+            background: rgba(59, 130, 246, 0.3);
+            color: #3b82f6;
+        }
+
+        @media (max-width: 767px) {
+            .menu-dropdown a {
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+        }
+
+        .menu-dropdown a:hover {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .menu-dropdown.show {
+            display: flex;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .blur-bg {
+            filter: blur(6px);
+        }
+
+        /* Grid Card Animations */
+        .grid-card {
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            animation: slideInUp 0.5s ease-out forwards;
+            opacity: 0;
+            will-change: transform, opacity, box-shadow;
+            touch-action: manipulation;
+        }
+
+        @media (max-width: 767px) {
+            .grid-card {
+                border-radius: 12px;
+                transition: all 0.2s ease;
+            }
+
+            .grid-card:active {
+                transform: scale(0.98);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .grid-card {
+                border-radius: 20px;
+                transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+        }
+
+        /* Premium Image Enhancement */
+        .grid-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: inherit;
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+            filter: brightness(0.95) contrast(1);
+            transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .grid-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .grid-card:hover::before {
+            filter: brightness(1.25) contrast(1.12) saturate(1.1);
+            transform: scale(1.06);
+        }
+
+        .grid-card:hover::after {
+            opacity: 1;
+        }
+
+        .grid-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 
+                0 0 30px rgba(59, 130, 246, 0.25),
+                0 25px 70px rgba(59, 130, 246, 0.2),
+                inset 0 0 20px rgba(59, 130, 246, 0.05);
+        }
+
+        /* Enhanced border glow */
+        .grid-card-glow {
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            background: radial-gradient(ellipse at top, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+        }
+
+        .grid-card:hover .grid-card-glow {
+            opacity: 1;
+        }
+
+        /* Stagger grid cards */
+        .grid-card:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+        .grid-card:nth-child(2) {
+            animation-delay: 0.08s;
+        }
+        .grid-card:nth-child(3) {
+            animation-delay: 0.11s;
+        }
+        .grid-card:nth-child(4) {
+            animation-delay: 0.14s;
+        }
+        .grid-card:nth-child(5) {
+            animation-delay: 0.17s;
+        }
+        .grid-card:nth-child(6) {
+            animation-delay: 0.2s;
+        }
+
+        .card-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            z-index: 10;
+            position: relative;
+            text-align: center;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-transform: uppercase;
+        }
+
+        .grid-card:hover .card-title {
+            transform: scale(1.08) translateY(-5px);
+            text-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .card-subtitle {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            z-index: 10;
+            position: relative;
+            letter-spacing: 0.8px;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            margin-top: 8px;
+        }
+
+        .grid-card:hover .card-subtitle {
+            color: rgba(255, 255, 255, 1);
+            transform: translateY(-3px);
+            letter-spacing: 1.2px;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .grid-card:hover .card-content {
+            transform: scale(1.04);
+        }
+
+        .card-bg-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 50%, transparent 100%);
+            z-index: 5;
+            transition: opacity 0.5s ease;
+        }
+
+        .grid-card:hover .card-bg-gradient {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+        }
+
+        .card-arrow {
+            pointer-events: none;
+        }
+
+        .card-arrow {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            will-change: transform, background, box-shadow;
+        }
+
+        .grid-card:hover .card-arrow {
+            transform: rotate(45deg) scale(1.2);
+            background: rgba(59, 130, 246, 0.4);
+            border-color: rgba(59, 130, 246, 0.6);
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.4);
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .card-arrow svg {
+            width: 22px;
+            height: 22px;
+            color: white;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        .grid-card:hover .card-arrow svg {
+            filter: drop-shadow(0 4px 8px rgba(59, 130, 246, 0.4));
+        }
+
+        /* Profile Section Animation */
+        .profile-section {
+            animation: fadeInLeft 0.5s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .profile-image {
+            animation: scaleIn 0.5s ease-out 0.08s backwards;
+            will-change: transform;
+        }
+
+        .profile-text {
+            animation: fadeInUp 0.5s ease-out 0.11s backwards;
+            will-change: opacity, transform;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 14px 28px;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 30px;
+            color: var(--foreground);
+            text-decoration: none;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            background: rgba(59, 130, 246, 0.08);
+            animation: fadeInUp 0.5s ease-out 0.14s backwards;
+            position: relative;
+            overflow: hidden;
+            will-change: transform, background;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            background: rgba(59, 130, 246, 0.18);
+            border-color: rgba(59, 130, 246, 0.7);
+            transform: translateY(-5px) scale(1.06);
+            box-shadow: 
+                0 0 30px rgba(59, 130, 246, 0.3),
+                0 15px 40px rgba(59, 130, 246, 0.2),
+                inset 0 0 15px rgba(59, 130, 246, 0.1);
+        }
+
+        .cta-button:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        /* Social Links Animation */
+        .social-links {
+            animation: fadeInUp 0.5s ease-out 0.17s backwards;
+            will-change: opacity, transform;
+        }
+
+        .social-btn {
+            width: 100%;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.04);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            color: var(--foreground);
+            text-decoration: none;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            will-change: transform, background, box-shadow;
+        }
+
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.4) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1;
+        }
+
+        .social-btn:hover::before {
+            opacity: 1;
+        }
+
+        .social-btn:hover {
+            background: rgba(59, 130, 246, 0.12);
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: translateY(-8px) scale(1.1);
+            box-shadow: 
+                0 0 25px rgba(59, 130, 246, 0.3),
+                0 20px 50px rgba(59, 130, 246, 0.25),
+                inset 0 0 20px rgba(59, 130, 246, 0.08);
+        }
+
+        .social-btn svg {
+            width: 24px;
+            height: 24px;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.3));
+            will-change: transform, filter;
+        }
+
+        .social-btn:hover svg {
+            transform: scale(1.25) rotate(8deg);
+            filter: drop-shadow(0 6px 12px rgba(59, 130, 246, 0.5));
+        }
+
+        /* Footer Animation */
+        .footer-text {
+            animation: fadeInUp 0.5s ease-out 0.2s backwards;
+            will-change: opacity, transform;
+        }
+
+        /* Profile animations */
+        .profile-image {
+            animation: fadeInUp 0.7s ease-out;
+        }
+
+        .profile-text {
+            animation: fadeInLeft 0.7s ease-out 0.1s backwards;
+        }
+
+        .profile-text h1, .profile-text p {
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .profile-section:hover .profile-text h1 {
+            color: #60a5fa;
+            transform: translateX(4px);
+        }
+
+        .profile-section:hover .profile-text p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        @media (max-width: 768px) {
+            .card-title {
+                font-size: 1.75rem;
+            }
+
+            .navbar-menu {
+                gap: 0.75rem;
+                font-size: 11px;
+            }
+
+            .navbar-menu a {
+                font-size: 10px;
+            }
+
+            .grid-card {
+                border-radius: 16px;
+            }
+
+            .card-arrow {
+                width: 36px;
+                height: 36px;
+                bottom: 12px;
+                right: 12px;
+            }
+
+            .card-arrow svg {
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar-menu {
+                gap: 0.5rem;
+            }
+
+            .navbar-menu a {
+                font-size: 9px;
+                letter-spacing: 0;
+            }
+        }
+    </style>
+</head>
+<body class="dark">
+    
+<!-- GLOBAL NAVBAR - FIXED TOP CENTER -->
+<div class="home-navbar">
+  <div class="nav-time" id="navTime">--:--</div>
+  <button class="menu-btn" id="menuBtn">☰</button>
+</div>
+
+<!-- MENU OVERLAY -->
+<div class="menu-overlay" id="menuOverlay">
+  <div class="menu-box">
+    <a href="/">Home</a>
+    <a href="/about.html">About Me</a>
+    <a href="/experience.html">Experience</a>
+    <a href="/stack.html">Tech Stack</a>
+    <a href="/projects.html">Projects</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/admin-unlock.html">ADMIN</a>
+  </div>
+</div>
+</div>
+
+<!-- PAGE WRAPPER START -->
+<div id="pageContent">
+</div>
+
+    <!-- Main Container -->
+    <div class="flex md:flex-row flex-col min-h-screen bg-white/5 text-white md:p-8 p-4 overflow-auto" style="background: #0a0a0a; margin-top: 60px;">
+        <!-- Sidebar -->
+        <aside class="md:w-80 md:px-4 py-6 flex flex-col justify-between md:sticky top-20 h-auto md:h-[calc(100vh-120px)] md:border-r md:border-white/10 profile-section">
+            <div class="mb-10 md:pr-6">
+                <!-- Profile Section -->
+                <div class="mb-6">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center flex-shrink-0 border-2 border-blue-400/30 shadow-lg shadow-blue-500/20 profile-image">
+                            <span class="text-5xl font-bold">VT</span>
+                        </div>
+                        <div class="profile-text">
+                            <h1 class="text-2xl md:text-3xl font-bold leading-tight" id="profileName">VISHWASH TAK.</h1>
+                            <p class="text-xs md:text-sm text-gray-400 font-semibold mt-2 letter-spacing tracking-wide" id="profileTitle">FRESHER DEVELOPER</p>
+                        </div>
+                    </div>
+
+                    <!-- Bio -->
+                    <p class="text-base md:text-lg text-gray-300 mb-6 leading-relaxed profile-text" id="profileBio">
+                        As a fresher developer, I'm building a strong foundation in web development and learning modern technologies to create meaningful projects.
+                    </p>
+
+                    <!-- CTA Button -->
+                    <a href="/contact.html" class="cta-button block text-center bg-gradient-to-r from-blue-600 to-blue-500 text-white border-0 hover:from-blue-700 hover:to-blue-600 shadow-lg shadow-blue-500/30">Get in Touch</a>
+                </div>
+
+            <!-- Footer Section -->
+            <div class="mt-auto md:pt-8 text-sm text-gray-400 border-t border-white/10 md:border-t-0">
+                <!-- Social Links -->
+                <div class="mt-auto md:pt-6 text-sm text-muted-foreground social-links">
+                <div class="flex gap-4 md:mb-8"><a target="_blank" rel="noopener noreferrer"
+                        class="h-10 w-full md:h-14 md:w-14 flex items-center justify-center border border-border rounded-full hover:bg-gray-800 transition"
+                        href="https://x.com">
+                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024"
+                            fill-rule="evenodd" height="24" width="24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M818 800 498.11 333.745l.546.437L787.084 0h-96.385L455.738 272 269.15 0H16.367l298.648 435.31-.036-.037L0 800h96.385l261.222-302.618L565.217 800zM230.96 72.727l448.827 654.546h-76.38L154.217 72.727z"
+                                transform="translate(103 112)"></path>
+                        </svg></a><a target="_blank"
+                        class="h-10 w-full md:h-14 md:w-14 flex items-center justify-center border border-border rounded-full hover:bg-gray-800 transition"
+                        href="https://www.linkedin.com">
+                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                            height="28" width="28" xmlns="http://www.w3.org/2000/svg">
+                            <g id="LinkedIn">
+                                <g>
+                                    <path
+                                        d="M18.44,3.06H5.56a2.507,2.507,0,0,0-2.5,2.5V18.44a2.507,2.507,0,0,0,2.5,2.5H18.44a2.5,2.5,0,0,0,2.5-2.5V5.56A2.5,2.5,0,0,0,18.44,3.06Zm1.5,15.38a1.511,1.511,0,0,1-1.5,1.5H5.56a1.511,1.511,0,0,1-1.5-1.5V5.56a1.511,1.511,0,0,1,1.5-1.5H18.44a1.511,1.511,0,0,1,1.5,1.5Z">
+                                    </path>
+                                    <g>
+                                        <path d="M6.376,10.748a1,1,0,1,1,2,0v6.5h0a1,1,0,0,1-2,0Z"></path>
+                                        <circle cx="7.376" cy="6.744" r="1"></circle>
+                                        <path
+                                            d="M17.62,13.37v3.88a1,1,0,1,1-2,0V13.37a1.615,1.615,0,1,0-3.23,0v3.88a1,1,0,0,1-2,0v-6.5a1.016,1.016,0,0,1,1-1,.94.94,0,0,1,.84.47,3.609,3.609,0,0,1,5.39,3.15Z">
+                                        </path>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg></a><a target="_blank"
+                        class="h-10 w-full md:h-14 md:w-14 flex items-center justify-center border border-border rounded-full hover:bg-gray-800 transition"
+                        href="https://github.com">
+                        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24"
+                            stroke-linecap="round" stroke-linejoin="round" height="24" width="24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                            </path>
+                        </svg></a></div>
+                <p class="hidden md:block footer-text">© by VISHWASH TAK</p>
+            </div>
+
+                
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col py-4">
+            <!-- Grid Content -->
+            <main class="flex-1 pt-4 pb-6">
+                <div class="w-full h-full">
+                    <div class="grid gap-4 md:gap-5 md:grid-cols-4 grid-cols-1 auto-rows-max md:auto-rows-[250px]">
+                        <!-- Projects Card - Large -->
+                        <a href="/projects.html" class="grid-card md:col-span-2 md:row-span-2 rounded-[20px] overflow-hidden relative flex justify-center items-center group cursor-pointer w-full h-[280px] md:h-full transition-all duration-300 hover:shadow-2xl" 
+                           style="background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%), url('./assets/image/slaylink-project%20(1).webp'); background-size: cover; background-position: center;">
+                            <div class="relative z-10 text-center">
+                                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">My Projects</h2>
+                                <p class="text-sm text-gray-300">Showcase of my work</p>
+                            </div>
+                            <div class="card-bg-gradient"></div>
+                            <div class="card-arrow group-hover:bg-white group-hover:shadow-lg">
+                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 6v2h8.59L5 17.59 6.41 19 16 9.41V18h2V6z"/></svg>
+                            </div>
+                        </a>
+
+                        <!-- Experience Card - Large Right Top -->
+                        <a href="/experience.html" class="grid-card md:col-span-2 md:row-span-1 rounded-[20px] overflow-hidden relative flex justify-center items-center group cursor-pointer w-full h-[280px] md:h-full transition-all duration-300 hover:shadow-2xl"
+                           style="background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.5) 100%), url('./assets/image/work.webp'); background-size: cover; background-position: center;">
+                            <div class="relative z-10 text-center">
+                                <h2 class="text-3xl md:text-4xl font-bold text-white">My Experience</h2>
+                            </div>
+                            <div class="card-bg-gradient"></div>
+                            <div class="card-arrow">
+                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 6v2h8.59L5 17.59 6.41 19 16 9.41V18h2V6z"/></svg>
+                            </div>
+                        </a>
+
+                        <!-- Tech Stack Card -->
+                        <a href="/stack.html" class="grid-card relative md:col-span-2 md:row-span-2 rounded-[20px] overflow-hidden h-[280px] md:h-full group cursor-pointer w-full flex items-center justify-center transition-all duration-300 hover:shadow-2xl"
+                           style="background: linear-gradient(135deg, rgba(100, 116, 139, 0.2) 0%, rgba(71, 85, 105, 0.3) 100%), url('./assets/image/asopalav.webp'); background-size: cover; background-position: center;">
+                            <div class="relative z-10 text-center p-6">
+                                <h2 class="font-bold text-white text-3xl md:text-4xl mb-4 letter-spacing -1px">My Stack</h2>
+                                <div class="flex justify-center gap-3 flex-wrap">
+                                    <span class="px-4 py-2 bg-blue-500/20 border border-blue-400/30 rounded-full text-sm text-blue-100">JavaScript</span>
+                                    <span class="px-4 py-2 bg-purple-500/20 border border-purple-400/30 rounded-full text-sm text-purple-100">React</span>
+                                    <span class="px-4 py-2 bg-pink-500/20 border border-pink-400/30 rounded-full text-sm text-pink-100">Tailwind</span>
+                                </div>
+                            </div>
+                            <div class="card-arrow">
+                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 6v2h8.59L5 17.59 6.41 19 16 9.41V18h2V6z"/></svg>
+                            </div>
+                        </a>
+
+                        <!-- About Section Card -->
+                        <a href="/about.html" class="grid-card md:col-span-2 md:row-span-1 rounded-[20px] relative overflow-hidden h-[280px] md:h-full transition-all duration-300 hover:shadow-2xl"
+                           style="background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%), url('./assets/image/outflow%20(1).webp'); background-size: cover; background-position: center;">
+                            <div class="relative z-10 h-full flex flex-col justify-between p-6">
+                                <h2 class="font-bold text-3xl md:text-4xl text-white">About</h2>
+                                <p class="text-sm text-gray-300 max-w-xs">Learn more about my journey and passion</p>
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                            <div class="card-arrow">
+                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 6v2h8.59L5 17.59 6.41 19 16 9.41V18h2V6z"/></svg>
+                            </div>
+                        </a>
+
+                        <!-- Contact Card -->
+                        <a href="/contact.html" class="grid-card relative md:col-span-2 md:row-span-1 rounded-[20px] items-center justify-center overflow-hidden py-8 group cursor-pointer h-[280px] md:h-full w-full transition-all duration-300 hover:shadow-2xl"
+                           style="background: linear-gradient(135deg, rgba(200, 100, 50, 0.3) 0%, rgba(100, 50, 150, 0.3) 100%), url('./assets/image/placeaa.webp'); background-size: cover; background-position: center;">
+                            <div class="relative z-10 text-center">
+                                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Contact</h2>
+                                <p class="text-sm text-gray-200">Contact me for opportunities</p>
+                            </div>
+                            <div class="card-arrow">
+                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 6v2h8.59L5 17.59 6.41 19 16 9.41V18h2V6z" style="color: white;"/></svg>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Mobile Footer -->
+            <p class="md:hidden py-4 text-lg font-bold text-gray-400 footer-text">© by Vishwash Tak</p>
+        </div>
+    </div>
+
+    <script>
+        const PROFILE_STORAGE_KEY = 'vishwash_portfolio_profile';
+        const ADMIN_LOGIN_KEY = 'vishwash_admin_logged_in';
+
+        // Load profile on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfile();
+            updateAdminBadge();
+            loadSocialLinks();
+        });
+
+        function loadProfile() {
+            const profile = JSON.parse(localStorage.getItem(PROFILE_STORAGE_KEY) || '{}');
+            
+            if (profile.name) document.getElementById('profileName').textContent = profile.name + '.';
+            if (profile.title) document.getElementById('profileTitle').textContent = profile.title;
+            if (profile.bio) document.getElementById('profileBio').textContent = profile.bio;
+        }
+
+        function loadSocialLinks() {
+            const profile = JSON.parse(localStorage.getItem(PROFILE_STORAGE_KEY) || '{}');
+            
+            if (profile.socialTwitter) document.getElementById('socialTwitter').href = profile.socialTwitter;
+            if (profile.socialLinkedin) document.getElementById('socialLinkedin').href = profile.socialLinkedin;
+            if (profile.socialGithub) document.getElementById('socialGithub').href = profile.socialGithub;
+            if (profile.socialInstagram) document.getElementById('socialInstagram').href = profile.socialInstagram;
+        }
+
+        function updateAdminBadge() {
+            const adminLink = document.getElementById('adminLink');
+            if (localStorage.getItem(ADMIN_LOGIN_KEY) === 'true') {
+                adminLink.textContent = '✓ Logged In';
+                adminLink.classList.add('logged-in');
+                adminLink.href = '/edit-profile.html';
+            } else {
+                adminLink.textContent = 'Admin';
+                adminLink.classList.remove('logged-in');
+                adminLink.href = '/admin-unlock.html';
+            }
+        }
+
+        // Update navbar active state on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.navbar-menu a');
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= sectionTop - 100) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    const activeLink = document.querySelector(`.navbar-menu a[href="#${section.id}"]`);
+                    if (activeLink) activeLink.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // Navbar functionality
+        const btn = document.getElementById("menuBtn");
+        const menuOverlay = document.getElementById("menuOverlay");
+        const timeEl = document.getElementById("navTime");
+
+        // Update navbar time
+        function updateTime(){
+            const d = new Date();
+            timeEl.innerText =
+                d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) +
+                " · " +
+                d.toDateString();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Menu toggle
+        btn.addEventListener('click', function() {
+            btn.classList.toggle('open');
+            menuOverlay.classList.toggle('show');
+        });
+
+        // Close menu when clicking overlay background
+        menuOverlay.addEventListener('click', function(e) {
+            if (e.target === menuOverlay) {
+                btn.classList.remove('open');
+                menuOverlay.classList.remove('show');
+            }
+        });
+
+        // Close menu when clicking links
+        menuOverlay.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                btn.classList.remove('open');
+                menuOverlay.classList.remove('show');
+            });
+        });
+
+        // Close menu on ESC
+        document.addEventListener("keydown", e=>{
+            if(e.key === "Escape" && menuOverlay.classList.contains('show')){
+                btn.classList.remove('open');
+                menuOverlay.classList.remove('show');
+            }
+        });
+    </script>
+
+    <script>
+        /* Old scripts for page interactions */
+        document.addEventListener("click", e=>{
+            if(!menu.contains(e.target) && !btn.contains(e.target)){
+                menu.classList.remove("show");
+                btn.classList.remove("open");
+                page.classList.remove("blur-bg");
+            }
+        });
+
+        /* ESC close */
+        document.addEventListener("keydown", e=>{
+            if(e.key === "Escape"){
+                menu.classList.remove("show");
+                btn.classList.remove("open");
+                page.classList.remove("blur-bg");
+            }
+        });
+
+        /* Close on link click */
+        menu.querySelectorAll("a").forEach(a=>{
+            a.onclick = ()=>{
+                menu.classList.remove("show");
+                btn.classList.remove("open");
+                page.classList.remove("blur-bg");
+            };
+        });
+
+        /* Advanced card hover effects with mouse tracking */
+        document.querySelectorAll('.grid-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Calculate tilt
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) * 0.05;
+                const rotateY = (centerX - x) * 0.05;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.02)`;
+                
+                // Light beam effect
+                const spotLight = card.querySelector('.grid-card-overlay');
+                if (spotLight) {
+                    spotLight.style.setProperty('--mouse-x', `${x}px`);
+                    spotLight.style.setProperty('--mouse-y', `${y}px`);
+                }
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        /* Image parallax on scroll */
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.grid-card').forEach((card, index) => {
+                const scrolled = window.pageYOffset;
+                const parallaxValue = scrolled * (0.1 + index * 0.05);
+                card.style.backgroundPosition = `center calc(50% + ${parallaxValue * 0.3}px)`;
+            });
+        });
+    </script>
+
+</body>
+</html>

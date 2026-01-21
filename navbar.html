@@ -1,0 +1,119 @@
+<!-- GLOBAL NAVBAR - FIXED TOP CENTER ON ALL PAGES -->
+<!-- Include this in the <head> of every page: <link rel="stylesheet" href="global-navbar.css"> -->
+<!-- Include visitor tracker: <script src="visitor-tracker.js"></script> -->
+
+<!-- CENTER NAVBAR -->
+<div class="home-navbar">
+  <div class="nav-time" id="navTime">--:--</div>
+  <button id="menuBtn" class="menu-btn">☰</button>
+</div>
+
+<!-- MENU OVERLAY -->
+<div id="menuOverlay" class="menu-overlay">
+  <div class="menu-box">
+    <a href="/">Home</a>
+    <a href="/about.html">About Me</a>
+    <a href="/experience.html">Experience</a>
+    <a href="/stack.html">Tech Stack</a>
+    <a href="/projects.html">Projects</a>
+    <a href="/contact.html">Contact</a>
+  </div>
+</div>
+
+<script>
+  // Update navbar time
+  const navTimeEl = document.getElementById('navTime');
+  if (navTimeEl) {
+    function updateNavTime() {
+      const now = new Date();
+      navTimeEl.innerText = 
+        now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) +
+        " · " +
+        now.toDateString();
+    }
+    updateNavTime();
+    setInterval(updateNavTime, 1000);
+  }
+
+  // Menu toggle functionality
+  const menuBtn = document.getElementById('menuBtn');
+  const menuOverlay = document.getElementById('menuOverlay');
+  
+  if (menuBtn && menuOverlay) {
+    menuBtn.addEventListener('click', function() {
+      menuBtn.classList.toggle('open');
+      menuOverlay.classList.toggle('show');
+    });
+
+    menuOverlay.addEventListener('click', function(e) {
+      if (e.target === menuOverlay) {
+        menuBtn.classList.remove('open');
+        menuOverlay.classList.remove('show');
+      }
+    });
+  }
+
+  // Close menu when clicking links
+  const menuLinks = document.querySelectorAll('.menu-box a');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      menuBtn.classList.remove('open');
+      menuOverlay.classList.remove('show');
+    });
+  });
+</script>
+
+<style>
+  .menu-box {
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    animation:slide .3s ease;
+  }
+
+.menu-box a{
+  color:white;
+  text-decoration:none;
+  font-size:16px;
+}
+
+.menu-box a:hover{
+  color:#3b82f6;
+}
+
+@keyframes slide{
+  from{opacity:0;transform:translateY(-10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+body{
+  padding-top:80px;
+  display: none;
+}
+
+.menu-box a {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.menu-box a:hover {
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+  transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+  .home-navbar {
+    width: 95%;
+    padding: 10px 16px;
+  }
+  .nav-time {
+    font-size: 0.875rem;
+  }
+}
+</style>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Add & Manage Projects - Guide</title>
+    <style>
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #111;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            padding: 40px;
+        }
+        h1 {
+            color: #3b82f6;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        h2 {
+            color: #60a5fa;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 22px;
+            border-left: 3px solid #3b82f6;
+            padding-left: 15px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+        .step {
+            background: rgba(59, 130, 246, 0.05);
+            border-left: 3px solid #3b82f6;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .step-num {
+            font-size: 24px;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+        .step p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        .code {
+            background: #0a0a0a;
+            padding: 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #10b981;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .button-text {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin: 5px 0;
+        }
+        .success {
+            color: #10b981;
+        }
+        .warning {
+            color: #f59e0b;
+        }
+        .link-button {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 10px 10px 10px 0;
+            transition: all 0.3s;
+        }
+        .link-button:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        .feature-list {
+            background: rgba(59, 130, 246, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .feature-list ul {
+            margin-left: 20px;
+        }
+        .feature-list li {
+            margin-bottom: 10px;
+        }
+        .qa {
+            background: rgba(59, 130, 246, 0.05);
+            border-left: 3px solid #10b981;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .qa strong {
+            color: #60a5fa;
+        }
+        .qa-answer {
+            color: #aaa;
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 How to Add & Manage Your Projects</h1>
+        
+        <h2>🔄 How the System Works</h2>
+        <div class="feature-list">
+            <p><strong>Your Portfolio has a 3-part system:</strong></p>
+            <ul>
+                <li><strong>Backend Server:</strong> Stores projects permanently in <code>projects-db.json</code></li>
+                <li><strong>Admin Panel:</strong> Where you add, edit, and delete projects</li>
+                <li><strong>Public Page:</strong> Automatically displays all your projects</li>
+            </ul>
+            <p style="margin-top: 15px; color: #aaa;">Everything syncs automatically - add a project in admin panel → appears on projects page in 2 seconds!</p>
+        </div>
+
+        <h2>✅ Current Status</h2>
+        <div class="step">
+            <p><span class="success">✓ 4 Sample Projects Already Added</span></p>
+            <p>Your database already has:</p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>E-Commerce Platform</li>
+                <li>Real-Time Chat Application</li>
+                <li>Task Management Dashboard</li>
+                <li>AI Content Generator</li>
+            </ul>
+            <p style="margin-top: 10px; color: #aaa;"><strong>Go to:</strong> <a href="/projects.html" style="color: #3b82f6;">Projects Page</a> to see them!</p>
+        </div>
+
+        <h2>➕ How to Add Your Own Projects</h2>
+
+        <div class="step">
+            <div class="step-num">Step 1: Go to Admin Panel</div>
+            <p>Click the link below to open the admin unlock page:</p>
+            <a href="/admin-unlock.html" class="link-button">🔓 Open Admin Unlock</a>
+            <p style="margin-top: 15px; color: #aaa;">Note: In test mode, you don't need a password. Just click through!</p>
+        </div>
+
+        <div class="step">
+            <div class="step-num">Step 2: Access Project Manager</div>
+            <p>After unlocking, go to the project manager:</p>
+            <a href="/admin-project-manager.html" class="link-button">📋 Open Project Manager</a>
+            <p style="margin-top: 15px; color: #aaa;">Or you'll be redirected automatically after unlocking.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-num">Step 3: Click "+ Add New Project"</div>
+            <p>You'll see a form with these fields:</p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><strong>Project Title:</strong> Name of your project</li>
+                <li><strong>Description:</strong> What does it do? (2-3 sentences)</li>
+                <li><strong>Project Link:</strong> Where to visit it online</li>
+                <li><strong>Images:</strong> Drag-drop screenshots (supports multiple)</li>
+                <li><strong>Technologies:</strong> React, Node.js, MongoDB, etc.</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <div class="step-num">Step 4: Fill in Project Details</div>
+            <div class="feature-list">
+                <p><strong>Example:</strong></p>
+                <div class="code">Title: E-Commerce Platform
+Description: A full-featured online store with product catalog, shopping cart, and payment integration.
+Link: https://mystore.com
+Images: [screenshot1.png, screenshot2.png]
+Tech: React, Node.js, MongoDB, Stripe</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-num">Step 5: Add Images (Drag & Drop)</div>
+            <p>You can add multiple images to each project:</p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Drag images into the upload area</li>
+                <li>Or click to browse and select</li>
+                <li>Add as many as you want</li>
+                <li>Images are stored as base64 (no separate upload needed)</li>
+            </ul>
+            <p style="margin-top: 10px; color: #f59e0b;"><strong>⚠️ Tip:</strong> At least one image is required!</p>
+        </div>
+
+        <div class="step">
+            <div class="step-num">Step 6: Add Technologies</div>
+            <p>Type technology names and click "Add":</p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Type: "React"</li>
+                <li>Click "Add" button</li>
+                <li>Repeat for each tech</li>
+                <li>Remove by clicking × on the tag</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <div class="step-num">Step 7: Click "Save Project"</div>
+            <p>That's it! Your project will:</p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><span class="success">✓</span> Save to database automatically</li>
+                <li><span class="success">✓</span> Appear on projects page in 2 seconds</li>
+                <li><span class="success">✓</span> Be visible to all visitors</li>
+                <li><span class="success">✓</span> Stored permanently</li>
+            </ul>
+        </div>
+
+        <h2>🎨 View Your Projects</h2>
+        <div class="step">
+            <p>Check out how your projects look:</p>
+            <a href="/projects.html" class="link-button">👀 View Projects Page</a>
+            <p style="margin-top: 15px; color: #aaa;">The page auto-refreshes every 2 seconds, so you'll see new projects immediately!</p>
+        </div>
+
+        <h2>🎛️ Project Features</h2>
+        <div class="feature-list">
+            <p><strong>On the projects page, visitors can:</strong></p>
+            <ul>
+                <li>✨ <strong>Search</strong> - Find projects by title or description</li>
+                <li>🏷️ <strong>Filter by Technology</strong> - Show only projects using specific tech</li>
+                <li>📱 <strong>Change View Mode</strong> - List, Grid, or Featured view</li>
+                <li>🖼️ <strong>View Image Gallery</strong> - Click images to expand</li>
+                <li>🔗 <strong>Visit Project</strong> - Click "View Project" button</li>
+            </ul>
+        </div>
+
+        <h2>❓ FAQ</h2>
+
+        <div class="qa">
+            <strong>Q: Why don't I see my new projects immediately?</strong>
+            <div class="qa-answer">
+                A: Projects sync automatically every 2 seconds. If you don't see them after 3 seconds, refresh the page (F5) or check that the backend server is running.
+            </div>
+        </div>
+
+        <div class="qa">
+            <strong>Q: Can I edit or delete projects?</strong>
+            <div class="qa-answer">
+                A: Yes! In the Project Manager, each project has Edit and Delete buttons in the table. Click to modify anytime.
+            </div>
+        </div>
+
+        <div class="qa">
+            <strong>Q: Do I need to restart the server?</strong>
+            <div class="qa-answer">
+                A: No! Changes are saved instantly to the database. The server keeps running and the projects page auto-syncs.
+            </div>
+        </div>
+
+        <div class="qa">
+            <strong>Q: Can I add projects from multiple computers?</strong>
+            <div class="qa-answer">
+                A: Yes! As long as they can access your backend server at http://localhost:3000, they can add projects. (For production, you'd deploy the server online.)
+            </div>
+        </div>
+
+        <div class="qa">
+            <strong>Q: What if the backend server crashes?</strong>
+            <div class="qa-answer">
+                A: The system has a fallback! It will use localStorage (browser storage) to show the last known projects. Restart the server to sync again.
+            </div>
+        </div>
+
+        <div class="qa">
+            <strong>Q: Can I add videos or other media?</strong>
+            <div class="qa-answer">
+                A: Currently, the system supports images only. You can add a link to your project which can contain videos or other media.
+            </div>
+        </div>
+
+        <h2>🚀 Quick Links</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0;">
+            <a href="/" class="link-button">🏠 Home</a>
+            <a href="/projects.html" class="link-button">🎨 Projects</a>
+            <a href="/admin-unlock.html" class="link-button">🔓 Admin</a>
+            <a href="/analytics-dashboard.html" class="link-button">📊 Analytics</a>
+        </div>
+
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); text-align: center; color: #aaa;">
+            <p>Need help? Check the console (F12) for any errors or visit the analytics dashboard to see visitor data!</p>
+            <p style="margin-top: 10px; font-size: 12px;">Backend: <code>http://localhost:3000</code> | Database: <code>projects-db.json</code></p>
+        </div>
+    </div>
+</body>
+</html>
