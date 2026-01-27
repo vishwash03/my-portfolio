@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <title>My Projects - VISHWASH TAK</title>
     <meta name="description" content="My Portfolio Projects">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="global-navbar.css">
-    <script src="visitor-tracker.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <link rel="stylesheet" href="mobile-optimized.css">
+    <link rel="stylesheet" href="mobile-device-detection.css">
+    <script src="visitor-tracker-advanced.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -32,7 +32,7 @@
             overflow-x: hidden;
         }
 
-        /* NAVBAR */
+        /* NAVBAR - RESPONSIVE WITH DEVICE DETECTION */
         .home-navbar {
             position: fixed;
             top: 20px;
@@ -41,16 +41,51 @@
             width: 90%;
             max-width: 1200px;
             height: 70px;
-            background: rgba(10, 10, 10, 0.9);
+            background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 50px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 0 40px;
+            justify-content: space-between;
+            padding: 0 30px;
             z-index: 1000;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Desktop: centered time + menu on right */
+        html[data-device="desktop"] .home-navbar {
+            justify-content: center;
+            padding: 0 40px;
+        }
+
+        html[data-device="desktop"] .nav-time {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        html[data-device="desktop"] .menu-btn {
+            margin-left: auto;
+        }
+
+        /* Mobile: full-width, centered */
+        html[data-device="mobile"] .home-navbar {
+            width: calc(100% - 20px);
+            left: 50%;
+            transform: translateX(-50%);
+            justify-content: center;
+            border-radius: 20px;
+        }
+
+        html[data-device="mobile"] .nav-time {
+            font-size: 13px;
+        }
+
+        html[data-device="tablet"] .home-navbar {
+            width: 95%;
+            max-width: 100%;
         }
 
         .nav-time {
@@ -59,74 +94,103 @@
             font-weight: 600;
             letter-spacing: 0.5px;
             color: #ffffff;
+            white-space: nowrap;
+            text-align: center;
+            flex: 1;
         }
 
         .menu-btn {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, 0.2);
             background: transparent;
             color: #fff;
             font-size: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-left: 20px;
+            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            margin-left: auto;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
         .menu-btn:hover {
             background: rgba(255, 255, 255, 0.05);
             border-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
         }
 
-        .menu-btn.open { transform: rotate(90deg); }
+        .menu-btn.open {
+            transform: rotate(90deg) scale(1.1);
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #3b82f6;
+        }
 
         .menu-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
             display: none;
-            align-items: flex-start;
-            justify-content: flex-end;
+            align-items: center;
+            justify-content: center;
             z-index: 999;
+            opacity: 0;
+            transition: opacity 300ms ease;
         }
 
-        .menu-overlay.show { display: flex; }
+        .menu-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
 
         .menu-box {
-            margin: 100px 30px 0 0;
             background: rgba(26, 26, 46, 0.95);
+            border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 20px;
-            padding: 30px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            animation: slideDown 0.3s ease;
-            border: 1px solid rgba(59, 130, 246, 0.2);
+            gap: 12px;
+            width: 90%;
+            max-width: 400px;
+            animation: slideDown 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
         @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .menu-box a {
-            color: #e0e0e0;
+            color: #ffffff;
             text-decoration: none;
-            font-size: 15px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 8px 12px;
-            border-radius: 8px;
+            font-size: 15px;
+            display: block;
+            text-align: center;
         }
 
         .menu-box a:hover {
-            color: #3b82f6;
-            background: rgba(59, 130, 246, 0.1);
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            transform: translateX(4px);
+        }
+
+        .menu-box a:active {
+            background: rgba(59, 130, 246, 0.3);
         }
 
         /* MAIN CONTENT */
@@ -219,17 +283,44 @@
             box-shadow: 0 15px 50px rgba(59, 130, 246, 0.15);
         }
 
-        .project-image {
+        .project-image-container {
             width: 100%;
             height: 200px;
+            background: rgba(10, 10, 10, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             transition: all 0.4s ease;
             background: rgba(10, 10, 10, 0.8);
+            -webkit-image-rendering: high-quality;
+            image-rendering: high-quality;
+        }
+
+        .project-image-placeholder {
+            font-size: 48px;
+            color: rgba(255, 255, 255, 0.3);
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(26, 26, 46, 0.3));
         }
 
         .project-card:hover .project-image {
             transform: scale(1.05);
-            filter: brightness(1.2);
+            filter: brightness(1.15);
         }
 
         .project-info {
@@ -448,7 +539,22 @@
     </div>
 
     <script>
-        // Navbar
+        // ===== DEVICE DETECTION INTEGRATION =====
+        function applyDeviceStyles() {
+            const device = document.documentElement.getAttribute('data-device');
+            const os = document.documentElement.getAttribute('data-os');
+            
+            console.log('Device detected:', { device, os });
+            
+            if (device === 'mobile') {
+                document.body.classList.add('mobile-view');
+            }
+        }
+        
+        // Check for device attributes after tracker loads
+        setTimeout(applyDeviceStyles, 100);
+
+        // ===== NAVBAR =====
         const menuBtn = document.getElementById("menuBtn");
         const menuOverlay = document.getElementById("menuOverlay");
         const timeEl = document.getElementById("navTime");
@@ -479,19 +585,30 @@
             });
         });
 
-        // Projects
+        // ===== IMAGE HANDLING =====
+        function getImageUrl(base64OrUrl) {
+            if (!base64OrUrl) return null;
+            if (typeof base64OrUrl === 'string' && (base64OrUrl.startsWith('http') || base64OrUrl.startsWith('data:'))) {
+                return base64OrUrl;
+            }
+            return base64OrUrl;
+        }
+
+        // ===== PROJECTS =====
         let allProjects = [];
         let currentImageIndex = 0;
         let currentProjectImages = [];
 
         async function loadProjects() {
             try {
-                const res = await fetch('/api/projects');
+                const res = await fetch('http://localhost:3000/api/projects');
+                if (!res.ok) throw new Error('Server error');
                 allProjects = await res.json();
+                if (!Array.isArray(allProjects)) allProjects = [];
                 displayProjects(allProjects);
                 populateTechFilter();
             } catch (e) {
-                console.log('Loading from localStorage');
+                console.log('Loading from localStorage:', e.message);
                 allProjects = JSON.parse(localStorage.getItem('vishwash_portfolio_projects') || '[]');
                 displayProjects(allProjects);
                 populateTechFilter();
@@ -510,19 +627,29 @@
             }
 
             empty.style.display = 'none';
-            container.innerHTML = projects.map(p => `
-                <div class="project-card">
-                    <img src="${p.images?.[0] || ''}" alt="${p.title}" class="project-image" onclick="openImageModal('${p.id}')">
-                    <div class="project-info">
-                        <h3 class="project-title">${p.title}</h3>
-                        <p class="project-desc">${p.description}</p>
-                        <div class="project-tech">
-                            ${(p.technologies || []).map(t => `<span class="tech-tag">${t}</span>`).join('')}
+            container.innerHTML = projects.map(p => {
+                const imageUrl = p.images && p.images.length > 0 ? getImageUrl(p.images[0]) : null;
+                return `
+                    <div class="project-card">
+                        <div class="project-image-container" onclick="openImageModal('${p.id}')">
+                            ${imageUrl 
+                                ? `<img src="${imageUrl}" alt="${p.title}" class="project-image" loading="lazy" onload="this.style.opacity='1'" onerror="this.parentElement.innerHTML='<div class=\"project-image-placeholder\">🖼️</div>'">`
+                                : `<div class="project-image-placeholder">🖼️</div>`
+                            }
                         </div>
-                        <a href="${p.link}" target="_blank" class="project-link">View Project</a>
+                        <div class="project-info">
+                            <h3 class="project-title">${p.title}</h3>
+                            <p class="project-desc">${p.description}</p>
+                            <div class="project-tech">
+                                ${(p.technologies || []).map(t => `<span class="tech-tag">${t}</span>`).join('')}
+                            </div>
+                            <a href="${p.link || '#'}" ${p.link ? 'target="_blank"' : 'onclick="return false;"'} class="project-link">
+                                ${p.link ? '🔗 View Project' : '📋 Project Details'}
+                            </a>
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
 
             document.getElementById('resultsCount').textContent = projects.length;
         }
@@ -551,7 +678,8 @@
         function openImageModal(projectId) {
             const project = allProjects.find(p => p.id === projectId);
             if (project && project.images?.length) {
-                currentProjectImages = project.images;
+                currentProjectImages = project.images.map(img => getImageUrl(img)).filter(Boolean);
+                if (currentProjectImages.length === 0) return;
                 currentImageIndex = 0;
                 showImage();
                 document.getElementById('imageModal').classList.add('active');
@@ -581,7 +709,8 @@
 
         // Initial load
         loadProjects();
-        setInterval(loadProjects, 2000);
+        // Refresh every 5 seconds to show real-time updates
+        setInterval(loadProjects, 5000);
     </script>
 </body>
 </html>

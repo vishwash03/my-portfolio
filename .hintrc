@@ -15,7 +15,9 @@
       "default",
       {
         "ignore": [
-          "backdrop-filter"
+          "backdrop-filter",
+          "image-rendering: crisp-edges",
+          "image-rendering: crisp-edges"
         ]
       }
     ]

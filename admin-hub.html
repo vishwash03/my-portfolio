@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Hub - Project Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #111;
+            --primary-blue: #3b82f6;
+            --text-primary: #ffffff;
+            --text-secondary: #e5e7eb;
+            --border-light: rgba(255, 255, 255, 0.1);
+        }
+
+        html, body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            padding-top: 90px;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            max-width: 1400px;
+            background: rgba(59, 59, 59, 0.95);
+            backdrop-filter: blur(18px);
+            border-radius: 999px;
+            padding: 12px 30px;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar-title {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .navbar-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn-nav {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-nav:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        /* CARD */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 28px;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .card-icon {
+            font-size: 32px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .card-description {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .card-features {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .card-features li {
+            margin: 4px 0;
+            margin-left: 16px;
+        }
+
+        .card-button {
+            padding: 10px 16px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: auto;
+        }
+
+        .card-button:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        /* SECTION */
+        .section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .flow-chart {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            min-width: 140px;
+            text-align: center;
+        }
+
+        .flow-arrow {
+            font-size: 20px;
+            color: var(--primary-blue);
+        }
+
+        .api-endpoint {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 3px solid var(--primary-blue);
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            margin: 12px 0;
+            overflow-x: auto;
+        }
+
+        .method-get { border-left-color: #10b981; }
+        .method-post { border-left-color: #3b82f6; }
+        .method-put { border-left-color: #f59e0b; }
+        .method-delete { border-left-color: #ef4444; }
+
+        /* CHECKLIST */
+        .checklist {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 6px;
+            border-left: 3px solid var(--primary-blue);
+        }
+
+        .checklist li::before {
+            content: '✓';
+            color: #10b981;
+            font-weight: bold;
+            font-size: 18px;
+            min-width: 24px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .navbar {
+                width: 95%;
+                padding: 10px 16px;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .container {
+                padding: 24px 16px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-chart {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-title">Portfolio Admin Hub</div>
+        <div class="navbar-actions">
+            <button class="btn-nav" onclick="logout()">
+                <span>🚪</span> Logout
+            </button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🎯 Admin Control Center</h1>
+            <p>Manage your portfolio projects from one place</p>
+            <span class="status-badge">✅ System Online & Syncing</span>
+        </div>
+
+        <!-- QUICK ACTIONS -->
+        <div class="grid">
+            <!-- ADD PROJECT -->
+            <a href="admin-add-project.html" class="card">
+                <div class="card-icon">➕</div>
+                <div class="card-title">Add New Project</div>
+                <div class="card-description">
+                    Create and publish a new project to your portfolio instantly
+                </div>
+                <div class="card-features">
+                    <ul style="list-style: none; padding: 0;">
+                        <li>✓ Drag-drop images</li>
+                        <li>✓ Add technologies</li>
+                        <li>✓ Live preview</li>
+                    </ul>
+                </div>
+                <button class="card-button">Open Form</button>
+            </a>
+
+            <!-- MANAGE PROJECTS -->
+            <a href="admin-project-manager.html" class="card">
+                <div class="card-icon">📊</div>
+                <div class="card-title">Manage Projects</div>
+                <div class="card-description">
+                    Edit, delete, or update existing projects in your portfolio
+                </div>
+                <div class="card-features">
+                    <ul style="list-style: none; padding: 0;">
+                        <li>✓ View all projects</li>
+                        <li>✓ Edit details</li>
+                        <li>✓ Delete safely</li>
+                    </ul>
+                </div>
+                <button class="card-button">Manager</button>
+            </a>
+
+            <!-- VIEW WEBSITE -->
+            <a href="projects.html" target="_blank" class="card">
+                <div class="card-icon">👁️</div>
+                <div class="card-title">View Website</div>
+                <div class="card-description">
+                    See how your projects appear to users visiting your website
+                </div>
+                <div class="card-features">
+                    <ul style="list-style: none; padding: 0;">
+                        <li>✓ Live preview</li>
+                        <li>✓ Real-time updates</li>
+                        <li>✓ Mobile responsive</li>
+                    </ul>
+                </div>
+                <button class="card-button">View</button>
+            </a>
+        </div>
+
+        <!-- HOW IT WORKS -->
+        <div class="section">
+            <h2>🔄 How the System Works</h2>
+            <div class="flow-chart">
+                <div class="flow-box">📝 Fill Form</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">💾 Save Data</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">📡 Server</div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">🌍 All Devices</div>
+            </div>
+            <p style="margin-top: 20px; color: var(--text-secondary);">
+                When you add a project, it's instantly saved to the server database and automatically syncs to all devices accessing your website in real-time.
+            </p>
+        </div>
+
+        <!-- API ENDPOINTS -->
+        <div class="section">
+            <h2>🔌 API Endpoints</h2>
+            <div class="api-endpoint method-get">GET /api/projects<br>Fetch all projects</div>
+            <div class="api-endpoint method-post">POST /api/projects<br>Add new project</div>
+            <div class="api-endpoint method-put">PUT /api/projects/:id<br>Update project</div>
+            <div class="api-endpoint method-delete">DELETE /api/projects/:id<br>Delete project</div>
+            <p style="margin-top: 16px; font-size: 13px; color: var(--text-secondary);">
+                All endpoints are automatically handled by the system. No manual API calls needed for basic operations.
+            </p>
+        </div>
+
+        <!-- QUICK START CHECKLIST -->
+        <div class="section">
+            <h2>✅ Quick Start Checklist</h2>
+            <ul class="checklist">
+                <li>Server is running on port 3000 (node server.js)</li>
+                <li>Admin login session is active</li>
+                <li>Add your first project using the form</li>
+                <li>View projects in the manager</li>
+                <li>Check live on projects.html</li>
+                <li>Projects sync every 5 seconds</li>
+            </ul>
+        </div>
+
+        <!-- KEY FEATURES -->
+        <div class="section">
+            <h2>⭐ Key Features</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div>
+                    <h3 style="font-size: 15px; margin-bottom: 10px;">🖼️ Image Management</h3>
+                    <p style="font-size: 13px; color: var(--text-secondary);">Drag-drop multiple images, automatic preview, base64 encoding</p>
+                </div>
+                <div>
+                    <h3 style="font-size: 15px; margin-bottom: 10px;">⚡ Real-Time Sync</h3>
+                    <p style="font-size: 13px; color: var(--text-secondary);">Projects update across all devices every 5 seconds</p>
+                </div>
+                <div>
+                    <h3 style="font-size: 15px; margin-bottom: 10px;">📱 Responsive Design</h3>
+                    <p style="font-size: 13px; color: var(--text-secondary);">Works perfectly on mobile, tablet, and desktop</p>
+                </div>
+                <div>
+                    <h3 style="font-size: 15px; margin-bottom: 10px;">🔐 Secure Auth</h3>
+                    <p style="font-size: 13px; color: var(--text-secondary);">Admin login with session management and expiration</p>
+                </div>
+                <div>
+                    <h3 style="font-size: 15px; margin-bottom: 10px;">📧 Notifications</h3>
+                    <p style="font-size: 13px; color: var(--text-secondary);">Email alerts when new projects are added</p>
+                </div>
+                <div>
+                    <h3 style="font-size: 15px; margin-bottom: 10px;">🎨 Dark Theme</h3>
+                    <p style="font-size: 13px; color: var(--text-secondary);">Modern glassmorphism with smooth animations</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUPPORT -->
+        <div class="section" style="text-align: center; background: rgba(59, 130, 246, 0.05); border-color: rgba(59, 130, 246, 0.2);">
+            <h2>📚 Documentation</h2>
+            <p style="margin-bottom: 20px;">Need more help? Check out the detailed guides:</p>
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                <a href="SERVER_SIDE_PROJECT_MANAGER.md" style="
+                    padding: 12px 20px;
+                    background: var(--primary-blue);
+                    color: white;
+                    border-radius: 6px;
+                    text-decoration: none;
+                    font-size: 13px;
+                    font-weight: 600;
+                    transition: all 0.3s;
+                " onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='var(--primary-blue)'">
+                    Full Documentation
+                </a>
+                <a href="QUICK_START_PROJECTS.md" style="
+                    padding: 12px 20px;
+                    background: var(--primary-blue);
+                    color: white;
+                    border-radius: 6px;
+                    text-decoration: none;
+                    font-size: 13px;
+                    font-weight: 600;
+                    transition: all 0.3s;
+                " onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='var(--primary-blue)'">
+                    Quick Start
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check admin auth
+        function checkAuth() {
+            const session = localStorage.getItem('vishwash_admin_auth');
+            if (!session) {
+                window.location.href = 'admin-login.html';
+            }
+        }
+
+        function logout() {
+            if (confirm('Logout?')) {
+                localStorage.removeItem('vishwash_admin_auth');
+                window.location.href = 'admin-login.html';
+            }
+        }
+
+        checkAuth();
+    </script>
+</body>
+</html>

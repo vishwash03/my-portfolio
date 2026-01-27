@@ -331,16 +331,22 @@
             contain: layout style paint;
         }
 
-        /* Mobile navbar */
+        /* Mobile navbar - centered */
         @media (max-width: 767px) {
             .home-navbar {
-                top: 0;
-                left: 0;
-                width: 100%;
+                top: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc(100% - 20px);
+                height: 65px;
+                border-radius: 20px;
+            }
+        }
+
+        @media (max-width: 479px) {
+            .home-navbar {
+                width: calc(100% - 15px);
                 height: 60px;
-                border-radius: 0;
-                background: rgba(10, 10, 10, 0.95);
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             }
         }
 
@@ -349,12 +355,32 @@
             font-size: 15px;
             letter-spacing: 0.8px;
             will-change: auto;
+            white-space: nowrap;
+            text-align: center;
+            flex: 1;
+        }
+
+        html[data-device="mobile"] .nav-time {
+            font-size: 12px;
+            letter-spacing: 0.3px;
         }
 
         @media (max-width: 767px) {
             .nav-time {
-                font-size: 13px;
-                letter-spacing: 0.5px;
+                font-size: 12px;
+                letter-spacing: 0.3px;
+            }
+        }
+
+        html[data-screen-size="small-mobile"] .nav-time {
+            font-size: 11px;
+            letter-spacing: 0px;
+        }
+
+        @media (max-width: 479px) {
+            .nav-time {
+                font-size: 11px;
+                letter-spacing: 0px;
             }
         }
 
@@ -996,7 +1022,7 @@
                             </div>
                             <div class="card-bg-gradient"></div>
                             <div class="card-arrow group-hover:bg-white group-hover:shadow-lg">
-                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 6v2h8.59L5 17.59 6.41 19 16 9.41V18h2V6z"/></svg>
+                                <svg fill="currentColor" viewBox="0 0 0 0"><path d="M6 6v2h8.59L5 17.59 6.41 19 16 9.41V18h2V6z"/></svg>
                             </div>
                         </a>
 
@@ -1120,6 +1146,21 @@
     </script>
 
     <script>
+        // ===== DEVICE DETECTION INTEGRATION =====
+        function applyDeviceStyles() {
+            const device = document.documentElement.getAttribute('data-device');
+            const os = document.documentElement.getAttribute('data-os');
+            
+            console.log('Device detected on INDEX:', { device, os });
+            
+            if (device === 'mobile') {
+                document.body.classList.add('mobile-view');
+            }
+        }
+        
+        // Check for device attributes after tracker loads
+        setTimeout(applyDeviceStyles, 100);
+
         // Navbar functionality
         const btn = document.getElementById("menuBtn");
         const menuOverlay = document.getElementById("menuOverlay");

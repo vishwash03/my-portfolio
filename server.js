@@ -207,16 +207,44 @@ app.post('/api/projects', (req, res) => {
                 message: 'Title, description, and images are required' 
             });
         }
-        
+
+        // Validate and optimize images
+        let processedImages = [];
+        for (let image of images) {
+            // Handle both base64 and URL formats
+            if (image && typeof image === 'string') {
+                // Validate base64 image size (max 5MB per image)
+                const imageSizeInBytes = image.length * 0.75; // Approximate base64 to bytes
+                if (imageSizeInBytes > 5 * 1024 * 1024) {
+                    console.warn(`Image exceeds 5MB limit, size: ${(imageSizeInBytes / 1024 / 1024).toFixed(2)}MB`);
+                    continue;
+                }
+                
+                // Ensure image has proper data URI format
+                if (!image.startsWith('data:image/')) {
+                    image = 'data:image/jpeg;base64,' + image;
+                }
+                
+                processedImages.push(image);
+            }
+        }
+
+        if (processedImages.length === 0) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'No valid images provided' 
+            });
+        }
+
         const projects = getProjects();
         
         const newProject = {
             id: 'project_' + Date.now(),
-            title,
-            description,
-            link: link || null,
-            images,
-            technologies: technologies || [],
+            title: title.trim(),
+            description: description.trim(),
+            link: link && link.trim() ? link.trim() : null,
+            images: processedImages,
+            technologies: (technologies || []).filter(t => t && t.trim()),
             featured: featured || false,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()
@@ -228,7 +256,7 @@ app.post('/api/projects', (req, res) => {
             // Send email notification
             sendProjectNotification(newProject);
             
-            console.log(`\n📂 NEW PROJECT ADDED:\n Title: ${title}\n Created: ${new Date().toLocaleString()}\n`);
+            console.log(`\n📂 NEW PROJECT ADDED:\n Title: ${title}\n Images: ${processedImages.length}\n Created: ${new Date().toLocaleString()}\n`);
             
             res.status(201).json({ 
                 success: true, 
@@ -240,7 +268,7 @@ app.post('/api/projects', (req, res) => {
         }
     } catch (error) {
         console.error('Error creating project:', error);
-        res.status(500).json({ success: false, message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Server error: ' + error.message });
     }
 });
 
@@ -360,13 +388,68 @@ app.post('/api/contact', (req, res) => {
     }
 });
 
-// VISITOR TRACKING
+// ===== DEVICE DETECTION =====
+function getDeviceType(userAgent) {
+    const ua = userAgent.toLowerCase();
+    if (/mobile|android|iphone|ipod|blackberry|iemobile|opera mini/.test(ua)) {
+        return 'mobile';
+    } else if (/tablet|ipad|kindle|playbook|silk|nexus 7|nexus 10|xoom/.test(ua)) {
+        return 'tablet';
+    }
+    return 'desktop';
+}
+
+function getOS(userAgent) {
+    const ua = userAgent.toLowerCase();
+    if (/windows/.test(ua)) return 'Windows';
+    else if (/macintosh|macos|mac os/.test(ua)) return 'macOS';
+    else if (/linux/.test(ua)) return 'Linux';
+    else if (/iphone|ipad|ipod/.test(ua)) return 'iOS';
+    else if (/android/.test(ua)) return 'Android';
+    return 'Unknown';
+}
+
+function getBrowser(userAgent) {
+    const ua = userAgent.toLowerCase();
+    if (/edge/.test(ua)) return 'Edge';
+    else if (/chrome/.test(ua) && !/chromium|edg|brave/.test(ua)) return 'Chrome';
+    else if (/firefox/.test(ua)) return 'Firefox';
+    else if (/safari/.test(ua) && !/chrome|crios/.test(ua)) return 'Safari';
+    else if (/trident|msie/.test(ua)) return 'IE';
+    else if (/opera|opr/.test(ua)) return 'Opera';
+    return 'Unknown';
+}
+
+// VISITOR TRACKING (Advanced with Device Detection)
 app.post('/api/visitors', (req, res) => {
     try {
-        const { page, userAgent, referrer, timestamp } = req.body;
+        const { 
+            page, 
+            userAgent, 
+            referrer, 
+            timestamp,
+            deviceType,
+            os,
+            browser,
+            screenSize,
+            screenResolution,
+            country,
+            city,
+            ip,
+            timezone,
+            isp,
+            language,
+            connection,
+            sessionId
+        } = req.body;
         
-        // Get client IP
-        const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        // Get client IP from request if not provided
+        const clientIp = ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        
+        // Detect device info from userAgent if not provided
+        const detectedDeviceType = deviceType || getDeviceType(userAgent || '');
+        const detectedOS = os || getOS(userAgent || '');
+        const detectedBrowser = browser || getBrowser(userAgent || '');
         
         // Save visitor data to file
         const visitorsFile = path.join(__dirname, 'visitors.json');
@@ -377,21 +460,48 @@ app.post('/api/visitors', (req, res) => {
             visitors = JSON.parse(data);
         }
         
-        visitors.push({
+        const visitorEntry = {
             id: 'visitor_' + Date.now(),
             ip: clientIp,
             page: page || 'unknown',
             userAgent: userAgent || 'unknown',
             referrer: referrer || 'direct',
             timestamp: timestamp || new Date().toISOString(),
+            sessionId: sessionId || 'session_' + Date.now(),
+            
+            // Device Info
+            deviceType: detectedDeviceType,
+            os: detectedOS,
+            browser: detectedBrowser,
+            screenSize: screenSize || 'unknown',
+            screenResolution: screenResolution || 'unknown',
+            
+            // Location Info
+            country: country || 'Unknown',
+            city: city || 'Unknown',
+            timezone: timezone || 'Unknown',
+            isp: isp || 'Unknown',
+            
+            // Additional Info
+            language: language || navigator?.language || 'unknown',
+            connection: connection || 'unknown',
+            
             visitedAt: new Date().toLocaleString()
-        });
+        };
+        
+        // Limit visitors.json to last 10,000 records to prevent file bloat
+        if (visitors.length > 10000) {
+            visitors = visitors.slice(-9999);
+        }
+        
+        visitors.push(visitorEntry);
         
         fs.writeFileSync(visitorsFile, JSON.stringify(visitors, null, 2));
         
         res.json({ 
             success: true, 
-            message: 'Visitor tracked successfully'
+            message: 'Visitor tracked successfully',
+            visitorId: visitorEntry.id
         });
     } catch (error) {
         console.error('Error tracking visitor:', error);
@@ -399,13 +509,27 @@ app.post('/api/visitors', (req, res) => {
     }
 });
 
-// GET visitors analytics
+// GET visitors analytics (Enhanced)
 app.get('/api/visitors', (req, res) => {
     try {
         const visitorsFile = path.join(__dirname, 'visitors.json');
         
         if (!fs.existsSync(visitorsFile)) {
-            return res.json({ success: true, visitors: [], total: 0 });
+            return res.json({ 
+                success: true, 
+                visitors: [], 
+                total: 0,
+                analytics: {
+                    totalVisits: 0,
+                    uniqueVisitors: 0,
+                    pageViews: {},
+                    deviceBreakdown: {},
+                    osBreakdown: {},
+                    browserBreakdown: {},
+                    topCountries: {},
+                    topCities: {}
+                }
+            });
         }
         
         const data = fs.readFileSync(visitorsFile, 'utf8');
@@ -413,21 +537,207 @@ app.get('/api/visitors', (req, res) => {
         
         // Calculate analytics
         const uniqueIps = new Set(visitors.map(v => v.ip));
+        const uniqueSessions = new Set(visitors.map(v => v.sessionId));
+        
         const pageViews = {};
+        const deviceBreakdown = {};
+        const osBreakdown = {};
+        const browserBreakdown = {};
+        const topCountries = {};
+        const topCities = {};
         
         visitors.forEach(v => {
+            // Page views
             pageViews[v.page] = (pageViews[v.page] || 0) + 1;
+            
+            // Device breakdown
+            deviceBreakdown[v.deviceType] = (deviceBreakdown[v.deviceType] || 0) + 1;
+            
+            // OS breakdown
+            osBreakdown[v.os] = (osBreakdown[v.os] || 0) + 1;
+            
+            // Browser breakdown
+            browserBreakdown[v.browser] = (browserBreakdown[v.browser] || 0) + 1;
+            
+            // Top countries
+            if (v.country !== 'Unknown') {
+                topCountries[v.country] = (topCountries[v.country] || 0) + 1;
+            }
+            
+            // Top cities
+            if (v.city !== 'Unknown') {
+                topCities[v.city] = (topCities[v.city] || 0) + 1;
+            }
         });
         
         res.json({ 
             success: true, 
-            visitors: visitors,
-            totalVisits: visitors.length,
-            uniqueVisitors: uniqueIps.size,
-            pageViews: pageViews
+            visitors: visitors.slice(-100), // Return last 100 visitors
+            total: visitors.length,
+            analytics: {
+                totalVisits: visitors.length,
+                uniqueVisitors: uniqueIps.size,
+                uniqueSessions: uniqueSessions.size,
+                pageViews: pageViews,
+                deviceBreakdown: deviceBreakdown,
+                osBreakdown: osBreakdown,
+                browserBreakdown: browserBreakdown,
+                topCountries: topCountries,
+                topCities: topCities
+            }
         });
     } catch (error) {
         console.error('Error fetching visitors:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// GET real-time visitors (last 30 minutes)
+app.get('/api/visitors/realtime', (req, res) => {
+    try {
+        const visitorsFile = path.join(__dirname, 'visitors.json');
+        
+        if (!fs.existsSync(visitorsFile)) {
+            return res.json({ success: true, realtimeVisitors: [] });
+        }
+        
+        const data = fs.readFileSync(visitorsFile, 'utf8');
+        const allVisitors = JSON.parse(data);
+        
+        // Get visitors from last 30 minutes
+        const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
+        const realtimeVisitors = allVisitors.filter(v => {
+            const visitDate = new Date(v.timestamp);
+            return visitDate > thirtyMinutesAgo;
+        });
+        
+        res.json({ 
+            success: true,
+            realtimeVisitors: realtimeVisitors.reverse(),
+            totalRealtimeVisitors: realtimeVisitors.length
+        });
+    } catch (error) {
+        console.error('Error fetching realtime visitors:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// DEVICE DETECTION ENDPOINT
+app.get('/api/device-detect', (req, res) => {
+    try {
+        const userAgent = req.headers['user-agent'] || '';
+        const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        
+        const deviceInfo = {
+            deviceType: getDeviceType(userAgent),
+            os: getOS(userAgent),
+            browser: getBrowser(userAgent),
+            userAgent: userAgent,
+            clientIp: clientIp,
+            timestamp: new Date().toISOString()
+        };
+        
+        res.json({
+            success: true,
+            device: deviceInfo
+        });
+    } catch (error) {
+        console.error('Error detecting device:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// IMAGE PROXY ENDPOINT - Serve images with device-aware optimization
+app.get('/api/image/:projectId/:imageIndex', (req, res) => {
+    try {
+        const { projectId, imageIndex } = req.params;
+        const projects = getProjects();
+        const project = projects.find(p => p.id === projectId);
+        
+        if (!project || !project.images || !project.images[imageIndex]) {
+            return res.status(404).json({ success: false, message: 'Image not found' });
+        }
+        
+        const imageData = project.images[imageIndex];
+        
+        // Detect device type for optimization
+        const userAgent = req.headers['user-agent'] || '';
+        const deviceType = getDeviceType(userAgent);
+        
+        // Return image with appropriate headers
+        if (imageData.startsWith('data:')) {
+            // Data URI - convert and send
+            const [header, data] = imageData.split(',');
+            const mimeType = header.match(/data:([^;]+)/)[1];
+            const buffer = Buffer.from(data, 'base64');
+            
+            res.set('Content-Type', mimeType);
+            res.set('Cache-Control', 'public, max-age=86400'); // Cache for 24 hours
+            res.set('X-Device-Type', deviceType);
+            res.send(buffer);
+        } else {
+            // Already formatted URL or base64
+            res.json({
+                success: true,
+                imageUrl: imageData,
+                deviceType: deviceType,
+                projectId: projectId
+            });
+        }
+    } catch (error) {
+        console.error('Error serving image:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// IMAGE VALIDATION ENDPOINT - Check if image exists and is accessible
+app.head('/api/image/:projectId/:imageIndex', (req, res) => {
+    try {
+        const { projectId, imageIndex } = req.params;
+        const projects = getProjects();
+        const project = projects.find(p => p.id === projectId);
+        
+        if (project && project.images && project.images[imageIndex]) {
+            res.set('X-Image-Exists', 'true');
+            res.status(200).end();
+        } else {
+            res.status(404).end();
+        }
+    } catch (error) {
+        res.status(500).end();
+    }
+});
+
+// IMAGE FALLBACK ENDPOINT - Get first available image if specific one fails
+app.get('/api/image/:projectId/fallback', (req, res) => {
+    try {
+        const { projectId } = req.params;
+        const projects = getProjects();
+        const project = projects.find(p => p.id === projectId);
+        
+        if (!project || !project.images || project.images.length === 0) {
+            return res.status(404).json({ success: false, message: 'No images available' });
+        }
+        
+        const imageData = project.images[0];
+        
+        if (imageData.startsWith('data:')) {
+            const [header, data] = imageData.split(',');
+            const mimeType = header.match(/data:([^;]+)/)[1];
+            const buffer = Buffer.from(data, 'base64');
+            
+            res.set('Content-Type', mimeType);
+            res.set('Cache-Control', 'public, max-age=86400');
+            res.send(buffer);
+        } else {
+            res.json({
+                success: true,
+                imageUrl: imageData,
+                projectId: projectId
+            });
+        }
+    } catch (error) {
+        console.error('Error serving fallback image:', error);
         res.status(500).json({ success: false, message: 'Server error' });
     }
 });
@@ -441,6 +751,7 @@ app.listen(PORT, () => {
 ║  Contacts: contacts.json                         ║
 ║  Visitors: visitors.json                         ║
 ║  API: http://localhost:${PORT}/api/projects      ║
+║  Images: http://localhost:${PORT}/api/image/*    ║
 ║  Tracking: http://localhost:${PORT}/api/visitors ║
 ╚══════════════════════════════════════════════════╝
     `);
