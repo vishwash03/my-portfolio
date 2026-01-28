@@ -708,6 +708,10 @@
         </div>
     </nav>
 
+    <!-- LOAD STORAGE SCRIPTS -->
+    <script src="project-storage.js"></script>
+    <script src="project-service.js"></script>
+
     <!-- MAIN CONTENT -->
     <div class="container">
         <!-- HEADER -->
@@ -919,7 +923,7 @@
         }
 
         // ===== FORM SUBMISSION =====
-        document.getElementById('projectForm').addEventListener('submit', async (e) => {
+        document.getElementById('projectForm').addEventListener('submit', (e) => {
             e.preventDefault();
 
             // VALIDATION
@@ -942,25 +946,20 @@
                     featured: document.getElementById('featuredCheck').checked
                 };
 
-                const response = await fetch('http://localhost:3000/api/projects', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(projectData)
-                });
+                // Use project service to add project
+                const result = projectService.addProject(projectData);
 
-                const data = await response.json();
-
-                if (data.success) {
+                if (result.success) {
                     showAlert('success', '✅ Project published successfully! Now visible on all devices.');
                     resetForm();
                     setTimeout(() => {
                         window.location.href = 'admin-project-manager.html';
                     }, 2000);
                 } else {
-                    showAlert('error', data.message || 'Failed to add project');
+                    showAlert('error', result.message || 'Failed to add project');
                 }
             } catch (error) {
-                showAlert('error', 'Connection error: Make sure the server is running (node server.js)');
+                showAlert('error', 'Error adding project: ' + error.message);
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<span>✨</span> Publish Project';

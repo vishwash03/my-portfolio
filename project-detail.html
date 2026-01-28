@@ -2,8 +2,8 @@
 <html lang="en" class="dark" style="color-scheme: dark;">
 <head>
     <meta charset="utf-8">
-    <title>My Projects - VISHWASH TAK</title>
-    <meta name="description" content="My Portfolio Projects">
+    <title>Project Details - VISHWASH TAK</title>
+    <meta name="description" content="Project Details">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <link rel="stylesheet" href="mobile-optimized.css">
     <link rel="stylesheet" href="mobile-device-detection.css">
@@ -28,11 +28,11 @@
         body {
             background: #0a0a0a;
             color: #fff;
-            padding-top: 120px;
+            padding-top: 100px;
             overflow-x: hidden;
         }
 
-        /* NAVBAR - RESPONSIVE WITH DEVICE DETECTION */
+        /* NAVBAR */
         .home-navbar {
             position: fixed;
             top: 20px;
@@ -54,7 +54,6 @@
             transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Desktop: centered time + menu on right */
         html[data-device="desktop"] .home-navbar {
             justify-content: center;
             padding: 0 40px;
@@ -70,7 +69,6 @@
             margin-left: auto;
         }
 
-        /* Mobile: full-width, centered */
         html[data-device="mobile"] .home-navbar {
             width: calc(100% - 20px);
             left: 50%;
@@ -189,10 +187,6 @@
             transform: translateX(4px);
         }
 
-        .menu-box a:active {
-            background: rgba(59, 130, 246, 0.3);
-        }
-
         /* MAIN CONTENT */
         .container {
             max-width: 1200px;
@@ -200,220 +194,203 @@
             padding: 40px 20px;
         }
 
-        .page-title {
-            font-size: 40px;
-            font-weight: 800;
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 500;
             margin-bottom: 30px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateX(-4px);
+        }
+
+        .project-header {
+            margin-bottom: 40px;
+        }
+
+        .project-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 15px;
             background: linear-gradient(135deg, #fff 0%, #60a5fa 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        /* FILTERS */
-        .filters {
-            background: rgba(26, 26, 46, 0.5);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
+        .project-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+
+        .project-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .project-description {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #ddd;
             margin-bottom: 30px;
+            max-width: 800px;
+        }
+
+        .tech-tags {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .filters input,
-        .filters select {
-            background: rgba(10, 10, 10, 0.6);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 8px;
-            padding: 10px 15px;
-            color: #fff;
-            font-size: 14px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .filters input:focus,
-        .filters select:focus {
-            border-color: #3b82f6;
-            background: rgba(59, 130, 246, 0.05);
-        }
-
-        .results-count {
-            font-size: 14px;
-            color: #aaa;
-            margin-left: auto;
-        }
-
-        /* PROJECTS GRID */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 60px;
-        }
-
-        @media (max-width: 768px) {
-            .projects-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            }
-        }
-
-        @media (max-width: 480px) {
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* PROJECT CARD */
-        .project-card {
-            background: linear-gradient(135deg, rgba(26, 26, 46, 0.5), rgba(20, 20, 35, 0.3));
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .project-card:hover {
-            border-color: #3b82f6;
-            transform: translateY(-8px);
-            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.15);
-        }
-
-        .project-image-container {
-            width: 100%;
-            height: 200px;
-            background: rgba(10, 10, 10, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            flex-shrink: 0;
-        }
-
-        .project-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: all 0.4s ease;
-            background: rgba(10, 10, 10, 0.8);
-            -webkit-image-rendering: high-quality;
-            image-rendering: high-quality;
-        }
-
-        .project-image-placeholder {
-            font-size: 48px;
-            color: rgba(255, 255, 255, 0.3);
-            text-align: center;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(26, 26, 46, 0.3));
-        }
-
-        .project-card:hover .project-image {
-            transform: scale(1.05);
-            filter: brightness(1.15);
-        }
-
-        .project-info {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .project-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #fff;
-            transition: all 0.3s ease;
-        }
-
-        .project-card:hover .project-title {
-            color: #60a5fa;
-        }
-
-        .project-desc {
-            font-size: 13px;
-            color: #aaa;
-            line-height: 1.5;
-            margin-bottom: 12px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            flex-grow: 1;
-        }
-
-        .project-tech {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-            margin-top: auto;
+            margin-bottom: 30px;
         }
 
         .tech-tag {
             background: rgba(59, 130, 246, 0.15);
             color: #60a5fa;
-            padding: 4px 10px;
-            border-radius: 16px;
-            font-size: 11px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 600;
             border: 1px solid rgba(59, 130, 246, 0.3);
         }
 
-        .project-actions {
+        .action-buttons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
-            margin-top: 12px;
+            margin-top: 30px;
         }
 
-        .project-link {
-            display: inline-block;
-            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
-            color: white;
-            padding: 8px 14px;
-            border-radius: 6px;
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 12px;
             font-weight: 600;
+            font-size: 14px;
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
-            flex: 1;
-            min-width: 100px;
-            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .project-link:hover {
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
         }
 
-        .project-link.secondary {
+        .btn-secondary {
             background: rgba(59, 130, 246, 0.1);
             color: #60a5fa;
             border: 1px solid rgba(59, 130, 246, 0.3);
         }
 
-        .project-link.secondary:hover {
+        .btn-secondary:hover {
             background: rgba(59, 130, 246, 0.2);
+            border-color: #3b82f6;
+        }
+
+        /* IMAGES SECTION */
+        .images-section {
+            margin-top: 60px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .images-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .images-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .image-card {
+            position: relative;
+            width: 100%;
+            padding-bottom: 75%;
+            background: rgba(26, 26, 46, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .image-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.15);
+        }
+
+        .image-card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.4s ease;
+        }
+
+        .image-card:hover img {
+            transform: scale(1.08);
+            filter: brightness(1.15);
+        }
+
+        .image-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .image-card:hover .image-overlay {
+            opacity: 1;
+        }
+
+        .image-icon {
+            font-size: 32px;
         }
 
         /* MODAL */
@@ -428,14 +405,20 @@
             background: rgba(0, 0, 0, 0.95);
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
 
-        .modal.active { display: flex; }
+        .modal.active {
+            display: flex;
+        }
 
         .modal-content {
             position: relative;
             max-width: 90%;
             max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .modal img {
@@ -457,7 +440,9 @@
             transition: all 0.3s ease;
         }
 
-        .close-modal:hover { transform: rotate(90deg); }
+        .close-modal:hover {
+            transform: rotate(90deg);
+        }
 
         .image-nav {
             position: absolute;
@@ -504,10 +489,18 @@
         }
 
         @media (max-width: 768px) {
-            .page-title { font-size: 32px; }
-            .filters { flex-direction: column; }
-            .filters input, .filters select { width: 100%; }
-            .results-count { margin-left: 0; width: 100%; }
+            .project-title {
+                font-size: 32px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -533,25 +526,49 @@
 
     <!-- MAIN -->
     <div class="container">
-        <h1 class="page-title">My Projects</h1>
+        <!-- BACK BUTTON -->
+        <a href="/projects.html" class="back-button">← Back to Projects</a>
 
-        <!-- FILTERS -->
-        <div class="filters">
-            <input type="text" id="searchInput" placeholder="Search projects..." />
-            <select id="techFilter" title="Filter projects by technology">
-                <option value="">All Technologies</option>
-            </select>
-            <div class="results-count"><span id="resultsCount">0</span> projects found</div>
+        <!-- PROJECT HEADER -->
+        <div class="project-header">
+            <h1 class="project-title" id="projectTitle">Project Title</h1>
+
+            <div class="project-meta">
+                <div class="project-meta-item">
+                    <span>📅</span>
+                    <span id="projectDate">--</span>
+                </div>
+                <div class="project-meta-item">
+                    <span>🔗</span>
+                    <a id="projectLink" href="#" target="_blank" style="color: #60a5fa; text-decoration: none;">View Live Project</a>
+                </div>
+            </div>
+
+            <p class="project-description" id="projectDescription">Project description will appear here...</p>
+
+            <div class="tech-tags" id="techTagsContainer"></div>
+
+            <div class="action-buttons">
+                <a id="viewLiveBtn" class="btn btn-primary" href="#" target="_blank" style="display: none;">
+                    🚀 View Live Project
+                </a>
+                <a href="/projects.html" class="btn btn-secondary">
+                    ← Back to Projects
+                </a>
+            </div>
         </div>
 
-        <!-- PROJECTS GRID -->
-        <div class="projects-grid" id="projectsContainer"></div>
+        <!-- IMAGES SECTION -->
+        <div class="images-section" id="imagesSection" style="display: none;">
+            <h2 class="section-title">Project Gallery</h2>
+            <div class="images-grid" id="imagesContainer"></div>
+        </div>
 
         <!-- EMPTY STATE -->
         <div class="empty-state" id="emptyState" style="display: none;">
-            <div class="empty-state-icon">📭</div>
-            <div class="empty-state-title">No projects found</div>
-            <p>Try adjusting your search or filter</p>
+            <div class="empty-state-icon">🖼️</div>
+            <div class="empty-state-title">No Images Available</div>
+            <p>This project doesn't have any images yet.</p>
         </div>
     </div>
 
@@ -562,6 +579,7 @@
             <img id="modalImage" src="" alt="Project Image">
             <div class="image-nav">
                 <button onclick="previousImage()">← Previous</button>
+                <span id="imageCounter" style="padding: 8px 16px; color: #aaa; font-size: 12px;"></span>
                 <button onclick="nextImage()">Next →</button>
             </div>
         </div>
@@ -572,15 +590,14 @@
         function applyDeviceStyles() {
             const device = document.documentElement.getAttribute('data-device');
             const os = document.documentElement.getAttribute('data-os');
-            
+
             console.log('Device detected:', { device, os });
-            
+
             if (device === 'mobile') {
                 document.body.classList.add('mobile-view');
             }
         }
-        
-        // Check for device attributes after tracker loads
+
         setTimeout(applyDeviceStyles, 100);
 
         // ===== NAVBAR =====
@@ -614,7 +631,12 @@
             });
         });
 
-        // ===== IMAGE HANDLING =====
+        // ===== PROJECT DETAILS =====
+        let currentProject = null;
+        let allProjects = [];
+        let currentImageIndex = 0;
+        let currentProjectImages = [];
+
         function getImageUrl(base64OrUrl) {
             if (!base64OrUrl) return null;
             if (typeof base64OrUrl === 'string' && (base64OrUrl.startsWith('http') || base64OrUrl.startsWith('data:'))) {
@@ -623,10 +645,10 @@
             return base64OrUrl;
         }
 
-        // ===== PROJECTS =====
-        let allProjects = [];
-        let currentImageIndex = 0;
-        let currentProjectImages = [];
+        function getProjectIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
 
         async function loadProjects() {
             try {
@@ -634,90 +656,109 @@
                 if (!res.ok) throw new Error('Server error');
                 allProjects = await res.json();
                 if (!Array.isArray(allProjects)) allProjects = [];
-                displayProjects(allProjects);
-                populateTechFilter();
+                displayProject();
             } catch (e) {
                 console.log('Loading from localStorage:', e.message);
-                allProjects = JSON.parse(localStorage.getItem('vishwash_portfolio_projects') || '[]');
-                displayProjects(allProjects);
-                populateTechFilter();
+                const stored = localStorage.getItem('vishwash_portfolio_projects');
+                allProjects = stored ? JSON.parse(stored) : [];
+                displayProject();
             }
         }
 
-        function displayProjects(projects) {
-            const container = document.getElementById('projectsContainer');
-            const empty = document.getElementById('emptyState');
+        function displayProject() {
+            const projectId = getProjectIdFromUrl();
 
-            if (projects.length === 0) {
-                container.innerHTML = '';
-                empty.style.display = 'block';
-                document.getElementById('resultsCount').textContent = '0';
+            if (!projectId) {
+                window.location.href = '/projects.html';
                 return;
             }
 
-            empty.style.display = 'none';
-            container.innerHTML = projects.map(p => {
-                const imageUrl = p.images && p.images.length > 0 ? getImageUrl(p.images[0]) : null;
-                return `
-                    <div class="project-card">
-                        <div class="project-image-container" onclick="openProjectDetail('${p.id}')">
-                            ${imageUrl 
-                                ? `<img src="${imageUrl}" alt="${p.title}" class="project-image" loading="lazy" onload="this.style.opacity='1'" onerror="this.parentElement.innerHTML='<div class=\\'project-image-placeholder\\'>🖼️</div>'">`
-                                : `<div class="project-image-placeholder">🖼️</div>`
-                            }
-                        </div>
-                        <div class="project-info">
-                            <h3 class="project-title">${p.title}</h3>
-                            <p class="project-desc">${p.description}</p>
-                            <div class="project-tech">
-                                ${(p.technologies || []).slice(0, 3).map(t => `<span class="tech-tag">${t}</span>`).join('')}
-                            </div>
-                            <div class="project-actions">
-                                <a href="project-detail.html?id=${p.id}" class="project-link">📋 View Details</a>
-                                ${p.link && p.link !== '#' ? `<a href="${p.link}" target="_blank" class="project-link secondary">🔗 Live</a>` : ''}
-                            </div>
-                        </div>
+            currentProject = allProjects.find(p => p.id === projectId);
+
+            if (!currentProject) {
+                document.querySelector('.project-header').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">❌</div>
+                        <div class="empty-state-title">Project Not Found</div>
+                        <p style="margin-top: 15px;">
+                            <a href="/projects.html" class="btn btn-primary" style="display: inline-flex;">← Back to Projects</a>
+                        </p>
                     </div>
                 `;
-            }).join('');
-
-            document.getElementById('resultsCount').textContent = projects.length;
-        }
-
-        function openProjectDetail(projectId) {
-            window.location.href = `project-detail.html?id=${projectId}`;
-        }
-
-        function populateTechFilter() {
-            const techs = [...new Set(allProjects.flatMap(p => p.technologies || []))];
-            const select = document.getElementById('techFilter');
-            select.innerHTML = '<option value="">All Technologies</option>' + 
-                techs.map(t => `<option value="${t}">${t}</option>`).join('');
-        }
-
-        function filterProjects() {
-            const search = document.getElementById('searchInput').value.toLowerCase();
-            const tech = document.getElementById('techFilter').value;
-
-            const filtered = allProjects.filter(p => {
-                const matchSearch = p.title.toLowerCase().includes(search) || 
-                                   p.description.toLowerCase().includes(search);
-                const matchTech = !tech || (p.technologies || []).includes(tech);
-                return matchSearch && matchTech;
-            });
-
-            displayProjects(filtered);
-        }
-
-        function openImageModal(projectId) {
-            const project = allProjects.find(p => p.id === projectId);
-            if (project && project.images?.length) {
-                currentProjectImages = project.images.map(img => getImageUrl(img)).filter(Boolean);
-                if (currentProjectImages.length === 0) return;
-                currentImageIndex = 0;
-                showImage();
-                document.getElementById('imageModal').classList.add('active');
+                return;
             }
+
+            // Set project details
+            document.getElementById('projectTitle').textContent = currentProject.title;
+            document.getElementById('projectDescription').textContent = currentProject.description;
+            document.getElementById('projectDate').textContent = currentProject.createdAt || 'N/A';
+
+            // Set project link
+            const projectLink = document.getElementById('projectLink');
+            const viewLiveBtn = document.getElementById('viewLiveBtn');
+
+            if (currentProject.link && currentProject.link !== '#') {
+                projectLink.href = currentProject.link;
+                projectLink.style.display = 'inline';
+                viewLiveBtn.href = currentProject.link;
+                viewLiveBtn.style.display = 'inline-flex';
+            } else {
+                projectLink.style.display = 'none';
+                viewLiveBtn.style.display = 'none';
+            }
+
+            // Set tech tags
+            const techContainer = document.getElementById('techTagsContainer');
+            techContainer.innerHTML = (currentProject.technologies || [])
+                .map(t => `<span class="tech-tag">${t}</span>`)
+                .join('');
+
+            // Set images
+            displayImages();
+        }
+
+        function displayImages() {
+            const imagesSection = document.getElementById('imagesSection');
+            const imagesContainer = document.getElementById('imagesContainer');
+            const emptyState = document.getElementById('emptyState');
+
+            if (!currentProject.images || currentProject.images.length === 0) {
+                imagesSection.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            currentProjectImages = currentProject.images
+                .map(img => getImageUrl(img))
+                .filter(Boolean);
+
+            if (currentProjectImages.length === 0) {
+                imagesSection.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            imagesSection.style.display = 'block';
+            emptyState.style.display = 'none';
+
+            imagesContainer.innerHTML = currentProjectImages
+                .map((img, index) => `
+                    <div class="image-card" onclick="openImageModal(${index})">
+                        <img src="${img}" alt="Project image ${index + 1}" loading="lazy"
+                             onerror="this.parentElement.innerHTML='<div class=\\'empty-state\\' style=\\'width:100%;height:100%;position:absolute;\\'>🖼️</div>'">
+                        <div class="image-overlay">
+                            <div class="image-icon">🔍</div>
+                        </div>
+                    </div>
+                `)
+                .join('');
+        }
+
+        function openImageModal(index) {
+            if (currentProjectImages.length === 0) return;
+            currentImageIndex = index;
+            showImage();
+            document.getElementById('imageModal').classList.add('active');
         }
 
         function closeImageModal() {
@@ -726,6 +767,7 @@
 
         function showImage() {
             document.getElementById('modalImage').src = currentProjectImages[currentImageIndex];
+            document.getElementById('imageCounter').textContent = `${currentImageIndex + 1} / ${currentProjectImages.length}`;
         }
 
         function nextImage() {
@@ -738,13 +780,17 @@
             showImage();
         }
 
-        document.getElementById('searchInput').addEventListener('input', filterProjects);
-        document.getElementById('techFilter').addEventListener('change', filterProjects);
+        // Keyboard navigation for modal
+        document.addEventListener('keydown', (e) => {
+            if (!document.getElementById('imageModal').classList.contains('active')) return;
+
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') previousImage();
+            if (e.key === 'Escape') closeImageModal();
+        });
 
         // Initial load
         loadProjects();
-        // Refresh every 5 seconds to show real-time updates
-        setInterval(loadProjects, 5000);
     </script>
 </body>
 </html>

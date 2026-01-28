@@ -1,0 +1,8 @@
+[build]
+  command = "echo 'Static site with serverless functions'"
+  functions = "netlify/functions"
+  publish = "."
+
+[dev]
+  functions = "netlify/functions"
+  port = 8888

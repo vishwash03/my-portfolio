@@ -1,17 +1,18 @@
 /**
- * PROJECT SERVICE - API VERSION (PERMANENT BACKEND STORAGE)
- * Communicates with backend server for permanent database storage
+ * PROJECT SERVICE - CLIENT-SIDE STORAGE VERSION
+ * Uses localStorage for permanent project storage (no backend required)
+ * Works perfectly on Netlify and other static hosting
  */
 
 class ProjectService {
     constructor() {
-        this.API_URL = 'http://localhost:3000/api/projects';
+        this.storage = projectStorage; // Uses project-storage.js
         this.ADMIN_STORAGE_KEY = 'vishwash_admin_auth';
         this.init();
     }
 
     init() {
-        console.log('✓ Project Service initialized (API Backend Mode)');
+        console.log('✓ Project Service initialized (Client-Side Storage Mode)');
     }
 
     /**
@@ -36,143 +37,59 @@ class ProjectService {
     }
 
     /**
-     * Check if admin is logged in
+     * Get all projects from storage
      */
-    isAdminLoggedIn() {
-        const session = localStorage.getItem(this.ADMIN_STORAGE_KEY);
-        if (!session) return false;
-
-        try {
-            const data = JSON.parse(session);
-            if (new Date().getTime() > data.expiresAt) {
-                localStorage.removeItem(this.ADMIN_STORAGE_KEY);
-                return false;
-            }
-            return true;
-        } catch (e) {
-            return false;
-        }
+    getAllProjects() {
+        return this.storage.getAllProjects();
     }
 
     /**
-     * Get all projects from backend (async)
+     * Get single project by ID
      */
-    async getAllProjects() {
-        try {
-            const response = await fetch(this.API_URL);
-            if (!response.ok) throw new Error('Failed to fetch projects');
-            const data = await response.json();
-            return data.success ? data.projects : [];
-        } catch (error) {
-            console.warn('Backend unavailable, using fallback');
-            return [];
-        }
+    getProjectById(projectId) {
+        return this.storage.getProjectById(projectId);
     }
 
     /**
-     * Get all projects (synchronous fallback)
+     * Add new project
      */
-    getAllProjectsSync() {
-        // For use in synchronous contexts, returns from backend cache
-        return window._projectsCache || [];
+    addProject(projectData) {
+        return this.storage.addProject(projectData);
     }
 
     /**
-     * Add new project (async)
+     * Update project
      */
-    async addProject(projectData) {
-        if (!this.isAdminLoggedIn()) {
-            return { success: false, message: 'Not authorized' };
-        }
-
-        try {
-            const response = await fetch(this.API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(projectData)
-            });
-
-            const data = await response.json();
-            
-            if (data.success) {
-                // Update cache
-                window._projectsCache = [...(window._projectsCache || []), data.project];
-            }
-            
-            return data;
-        } catch (error) {
-            console.error('Error adding project:', error);
-            return { success: false, message: 'Network error' };
-        }
+    updateProject(projectId, projectData) {
+        return this.storage.updateProject(projectId, projectData);
     }
 
     /**
-     * Update project (async)
+     * Delete project
      */
-    async updateProject(projectId, projectData) {
-        if (!this.isAdminLoggedIn()) {
-            return { success: false, message: 'Not authorized' };
-        }
-
-        try {
-            const response = await fetch(`${this.API_URL}/${projectId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(projectData)
-            });
-
-            const data = await response.json();
-            
-            if (data.success) {
-                // Update cache
-                const cache = window._projectsCache || [];
-                const idx = cache.findIndex(p => p.id === projectId);
-                if (idx >= 0) cache[idx] = data.project;
-                window._projectsCache = cache;
-            }
-            
-            return data;
-        } catch (error) {
-            console.error('Error updating project:', error);
-            return { success: false, message: 'Network error' };
-        }
+    deleteProject(projectId) {
+        return this.storage.deleteProject(projectId);
     }
 
     /**
-     * Delete project (async)
+     * Import projects from JSON
      */
-    async deleteProject(projectId) {
-        if (!this.isAdminLoggedIn()) {
-            return { success: false, message: 'Not authorized' };
-        }
-
-        try {
-            const response = await fetch(`${this.API_URL}/${projectId}`, {
-                method: 'DELETE'
-            });
-
-            const data = await response.json();
-            
-            if (data.success) {
-                // Update cache
-                const cache = window._projectsCache || [];
-                window._projectsCache = cache.filter(p => p.id !== projectId);
-            }
-            
-            return data;
-        } catch (error) {
-            console.error('Error deleting project:', error);
-            return { success: false, message: 'Network error' };
-        }
+    importProjects(projects) {
+        return this.storage.importProjects(projects);
     }
 
     /**
-     * Load all projects from backend into cache
+     * Export all projects
      */
-    async loadProjectsToCache() {
-        const projects = await this.getAllProjects();
-        window._projectsCache = projects;
-        return projects;
+    exportProjects() {
+        return this.storage.exportProjects();
+    }
+
+    /**
+     * Get storage statistics
+     */
+    getStats() {
+        return this.storage.getStats();
     }
 }
 
