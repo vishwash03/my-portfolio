@@ -92,49 +92,60 @@
         .menu-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
             display: none;
-            align-items: flex-start;
-            justify-content: flex-end;
+            align-items: center;
+            justify-content: center;
             z-index: 999;
+            opacity: 0;
+            transition: opacity 300ms ease;
         }
 
-        .menu-overlay.show { display: flex; }
+        .menu-overlay.show { display: flex; opacity: 1; }
 
         .menu-box {
-            margin: 100px 30px 0 0;
             background: rgba(26, 26, 46, 0.95);
+            border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 20px;
-            padding: 30px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            animation: slideDown 0.3s ease;
-            border: 1px solid rgba(59, 130, 246, 0.2);
+            gap: 12px;
+            width: 90%;
+            max-width: 400px;
+            animation: slideDown 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
         @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .menu-box a {
-            color: #e0e0e0;
+            color: #ffffff;
             text-decoration: none;
-            font-size: 15px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 8px 12px;
-            border-radius: 8px;
+            font-size: 15px;
+            display: block;
+            text-align: center;
         }
 
         .menu-box a:hover {
-            color: #3b82f6;
-            background: rgba(59, 130, 246, 0.1);
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            transform: translateX(4px);
         }
-
-        .menu-btn.open { transform: rotate(90deg); }
     </style>
 </head>
 
@@ -142,8 +153,20 @@
     <!-- GLOBAL NAVBAR - FIXED TOP CENTER -->
     <div class="home-navbar">
         <div class="nav-time" id="navTime">--:--</div>
+        <button class="menu-btn" id="menuBtn">☰</button>
     </div>
 
+    <!-- MENU OVERLAY -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-box">
+            <a href="/">Home</a>
+            <a href="/about.html">About Me</a>
+            <a href="/experience.html">Experience</a>
+            <a href="/stack.html">Tech Stack</a>
+            <a href="/projects.html">Projects</a>
+            <a href="/contact.html">Contact</a>
+        </div>
+    </div>
     
     <script>
     // Navbar time functionality
@@ -158,6 +181,34 @@
     }
     updateTime();
     setInterval(updateTime, 1000);
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById("menuBtn");
+    const menuOverlay = document.getElementById("menuOverlay");
+    
+    if (menuBtn) {
+        menuBtn.addEventListener("click", () => {
+            menuBtn.classList.toggle("open");
+            menuOverlay.classList.toggle("show");
+        });
+    }
+
+    if (menuOverlay) {
+        menuOverlay.addEventListener("click", (e) => {
+            if (e.target === menuOverlay) {
+                menuBtn.classList.remove("open");
+                menuOverlay.classList.remove("show");
+            }
+        });
+    }
+
+    const menuLinks = document.querySelectorAll(".menu-box a");
+    menuLinks.forEach(link => {
+        link.addEventListener("click", () => {
+            menuBtn.classList.remove("open");
+            menuOverlay.classList.remove("show");
+        });
+    });
     </script>
 
     <div class="flex md:flex-row flex-col bg-background text-foreground md:p-10 p-5 overflow-auto">

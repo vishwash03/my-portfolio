@@ -117,7 +117,6 @@ function displayProjects(projects) {
           <div class="project-actions">
             ${project.link ? `<a href="${project.link}" target="_blank" class="project-link">View Project</a>` : ''}
             ${project.github ? `<a href="${project.github}" target="_blank" class="project-link secondary">GitHub</a>` : ''}
-            <a href="/project-detail.html?id=${project.id}" class="project-link" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">View Details</a>
           </div>
         </div>
         <div class="card-arrow" style="cursor: pointer;" onclick="goToProjectDetail('${project.id}')">
