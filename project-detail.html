@@ -504,6 +504,217 @@
                 width: 100%;
                 justify-content: center;
             }
+
+            .container {
+                padding: 20px 12px;
+            }
+
+            .project-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .project-description {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .project-title {
+                font-size: 24px;
+            }
+
+            .container {
+                padding: 16px 10px;
+                max-width: 100%;
+            }
+
+            .back-button {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+
+            .project-header {
+                margin-bottom: 24px;
+            }
+
+            .project-meta {
+                font-size: 12px;
+                gap: 8px;
+            }
+
+            .project-description {
+                font-size: 13px;
+                line-height: 1.5;
+            }
+
+            .tech-tag {
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .btn {
+                padding: 10px 16px;
+                font-size: 12px;
+                width: 100%;
+            }
+
+            .images-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .home-navbar {
+                height: 60px;
+                padding: 0 20px;
+            }
+
+            .nav-time {
+                font-size: 11px;
+            }
+
+            .menu-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .project-title {
+                font-size: 20px;
+            }
+
+            .container {
+                padding: 12px 8px;
+                margin: 0;
+            }
+
+            .back-button {
+                padding: 6px 10px;
+                font-size: 12px;
+                margin-bottom: 16px;
+            }
+
+            .project-header {
+                margin-bottom: 16px;
+            }
+
+            .project-meta {
+                flex-direction: column;
+                font-size: 11px;
+                gap: 6px;
+            }
+
+            .project-meta-item {
+                gap: 4px;
+            }
+
+            .project-description {
+                font-size: 12px;
+                line-height: 1.4;
+                margin-bottom: 12px;
+            }
+
+            .tech-tags {
+                gap: 6px;
+                margin-bottom: 12px;
+            }
+
+            .tech-tag {
+                font-size: 9px;
+                padding: 3px 8px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 6px;
+                margin-top: 12px;
+            }
+
+            .btn {
+                padding: 8px 12px;
+                font-size: 11px;
+                width: 100%;
+            }
+
+            .btn-primary {
+                background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            }
+
+            .images-section {
+                margin-top: 32px;
+            }
+
+            .section-title {
+                font-size: 16px;
+                margin-bottom: 16px;
+            }
+
+            .images-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin-bottom: 32px;
+            }
+
+            .empty-state {
+                padding: 40px 16px;
+                text-align: center;
+            }
+
+            .empty-state-icon {
+                font-size: 36px;
+                margin-bottom: 12px;
+            }
+
+            .empty-state-title {
+                font-size: 16px;
+            }
+
+            .empty-state p {
+                font-size: 12px;
+            }
+
+            .modal {
+                padding: 16px;
+            }
+
+            .modal-content {
+                max-width: 95%;
+                max-height: 90vh;
+            }
+
+            .modal img {
+                max-height: 75vh;
+            }
+
+            .close-modal {
+                top: -30px;
+                font-size: 24px;
+            }
+
+            .image-nav {
+                bottom: -40px;
+                gap: 8px;
+            }
+
+            .image-nav button {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+
+            #imageCounter {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -640,6 +851,50 @@
         let currentImageIndex = 0;
         let currentProjectImages = [];
 
+        // Fallback sample projects
+        const SAMPLE_PROJECTS = [
+          {
+            id: "project_1",
+            title: "E-Commerce Platform",
+            description: "A full-featured e-commerce platform with product catalog, shopping cart, payment integration, and order management system. Built with modern technologies and responsive design.",
+            link: "https://example.com/ecommerce",
+            github: "https://github.com/example/ecommerce",
+            images: ["data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%233b82f6' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EE-Commerce%3C/text%3E%3C/svg%3E"],
+            technologies: ["React", "Node.js", "MongoDB", "Stripe"],
+            createdAt: "2024-01-15"
+          },
+          {
+            id: "project_2",
+            title: "Real-Time Chat Application",
+            description: "A real-time messaging application with instant notifications, user authentication, group conversations, and media sharing capabilities.",
+            link: "https://example.com/chat",
+            github: "https://github.com/example/chat",
+            images: ["data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%2310b981' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EChat App%3C/text%3E%3C/svg%3E"],
+            technologies: ["Socket.io", "Express", "React", "PostgreSQL"],
+            createdAt: "2024-01-20"
+          },
+          {
+            id: "project_3",
+            title: "Task Management Dashboard",
+            description: "Comprehensive task management tool with drag-and-drop interface, team collaboration features, real-time updates, and detailed analytics.",
+            link: "https://example.com/tasks",
+            github: "https://github.com/example/tasks",
+            images: ["data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23f59e0b' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3ETasks%3C/text%3E%3C/svg%3E"],
+            technologies: ["Vue.js", "Django", "Redis", "MySQL"],
+            createdAt: "2024-02-01"
+          },
+          {
+            id: "project_4",
+            title: "AI Content Generator",
+            description: "Machine learning-powered content generation tool that creates blog posts, social media content, and product descriptions using advanced NLP models.",
+            link: "https://example.com/ai-generator",
+            github: "https://github.com/example/ai",
+            images: ["data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%238b5cf6' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'%3EAI Generator%3C/text%3E%3C/svg%3E"],
+            technologies: ["Python", "TensorFlow", "FastAPI", "React"],
+            createdAt: "2024-02-10"
+          }
+        ];
+
         function getImageUrl(base64OrUrl) {
             if (!base64OrUrl) return null;
             if (typeof base64OrUrl === 'string' && (base64OrUrl.startsWith('http') || base64OrUrl.startsWith('data:'))) {
@@ -655,20 +910,24 @@
 
         async function loadProjects() {
             try {
-                // Load projects from Firebase using projects.js
-                // Projects are loaded by projects.js module
+                console.log('Loading projects from Firebase...');
+                // Import projectsService from firebase.js
+                const { projectsService } = await import('./firebase.js');
+                allProjects = await projectsService.getAll();
+                console.log('Projects loaded from Firebase:', allProjects.length);
+                
+                // Use sample projects if Firebase is empty
+                if (!allProjects || allProjects.length === 0) {
+                    console.warn('⚠️ No projects in Firebase, using sample projects');
+                    allProjects = SAMPLE_PROJECTS;
+                }
+                
                 displayProject();
-            } catch (e) {
-                console.error('❌ Error loading projects from Firebase:', e.message);
-                document.querySelector('.project-header').innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">❌</div>
-                        <div class="empty-state-title">Error Loading Project</div>
-                        <p style="margin-top: 15px;">
-                            <a href="/projects.html" class="btn btn-primary">← Back to Projects</a>
-                        </p>
-                    </div>
-                `;
+            } catch (error) {
+                console.error('❌ Error loading projects from Firebase:', error);
+                // Use sample projects on error
+                allProjects = SAMPLE_PROJECTS;
+                displayProject();
             }
         }
 

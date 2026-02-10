@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Card Layout Changes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #3b82f6; margin-bottom: 30px; }
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        .layout {
+            background: #1a1a1a;
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .layout h3 {
+            color: #60a5fa;
+            margin-top: 0;
+        }
+        .grid-demo {
+            display: grid;
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .old-grid { grid-template-columns: repeat(2, 1fr); }
+        .new-grid { grid-template-columns: repeat(3, 1fr); }
+        .card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(30, 64, 175, 0.1));
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 12px;
+            text-align: center;
+        }
+        .old-card {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 8px;
+        }
+        .new-card {
+            display: flex;
+            flex-direction: column;
+        }
+        .image-box {
+            background: rgba(59, 130, 246, 0.15);
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            font-size: 10px;
+            color: #3b82f6;
+        }
+        .new-card .image-box {
+            width: 100%;
+            height: 60px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .old-card .image-box {
+            border-right: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .content {
+            padding: 8px 0;
+            text-align: left;
+            flex: 1;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .stat-box {
+            background: #1a1a1a;
+            border-left: 3px solid #3b82f6;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .stat-box h4 { margin: 0 0 10px 0; color: #60a5fa; }
+        .stat-box p { margin: 0; font-size: 14px; }
+        .highlight { color: #10b981; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📐 Project Card Layout Redesign</h1>
+
+        <div class="comparison">
+            <div class="layout">
+                <h3>❌ OLD LAYOUT</h3>
+                <p><strong>2 Cards Per Row</strong></p>
+                <p style="color: #aaa; font-size: 12px;">Horizontal card layout with image on the left</p>
+                
+                <div class="grid-demo old-grid">
+                    <div class="card old-card">
+                        <div class="image-box">IMG</div>
+                        <div class="content">Project Title & Content</div>
+                    </div>
+                    <div class="card old-card">
+                        <div class="image-box">IMG</div>
+                        <div class="content">Project Title & Content</div>
+                    </div>
+                </div>
+
+                <div style="background: rgba(239, 68, 68, 0.1); border-left: 3px solid #ef4444; padding: 12px; border-radius: 4px; margin-top: 15px; font-size: 12px;">
+                    <strong>Issues:</strong>
+                    <ul style="margin: 8px 0; padding-left: 20px;">
+                        <li>Only 2 projects visible per row</li>
+                        <li>Lots of wasted horizontal space</li>
+                        <li>Image takes up limited room</li>
+                        <li>Content squeezed on the right</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="layout">
+                <h3>✅ NEW LAYOUT</h3>
+                <p><strong>3 Cards Per Row</strong></p>
+                <p style="color: #aaa; font-size: 12px;">Vertical card layout with image on top</p>
+                
+                <div class="grid-demo new-grid">
+                    <div class="card new-card">
+                        <div class="image-box">IMG</div>
+                        <div class="content">Title</div>
+                    </div>
+                    <div class="card new-card">
+                        <div class="image-box">IMG</div>
+                        <div class="content">Title</div>
+                    </div>
+                    <div class="card new-card">
+                        <div class="image-box">IMG</div>
+                        <div class="content">Title</div>
+                    </div>
+                </div>
+
+                <div style="background: rgba(16, 185, 129, 0.1); border-left: 3px solid #10b981; padding: 12px; border-radius: 4px; margin-top: 15px; font-size: 12px;">
+                    <strong>Improvements:</strong>
+                    <ul style="margin: 8px 0; padding-left: 20px;">
+                        <li>3 projects per row (50% more visible)</li>
+                        <li>Better space utilization</li>
+                        <li>Image gets full card width</li>
+                        <li>Content has breathing room</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-box">
+                <h4>Desktop (1024px+)</h4>
+                <p><span class="highlight">3 cards</span> per row</p>
+                <p style="font-size: 12px; color: #aaa;">Max visibility</p>
+            </div>
+            <div class="stat-box">
+                <h4>Tablet (768-1024px)</h4>
+                <p><span class="highlight">2 cards</span> per row</p>
+                <p style="font-size: 12px; color: #aaa;">Balanced layout</p>
+            </div>
+            <div class="stat-box">
+                <h4>Mobile (<768px)</h4>
+                <p><span class="highlight">1 card</span> per row</p>
+                <p style="font-size: 12px; color: #aaa;">Full width card</p>
+            </div>
+        </div>
+
+        <div style="background: #1a1a1a; border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 12px; padding: 20px; margin: 30px 0;">
+            <h3 style="color: #60a5fa; margin-top: 0;">📊 Key Changes</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="border-bottom: 1px solid rgba(59, 130, 246, 0.2);">
+                    <td style="padding: 10px; color: #aaa;">Grid Template</td>
+                    <td style="padding: 10px;"><code style="background: #0a0a0a; padding: 4px 8px; border-radius: 4px;">repeat(2, 1fr)</code></td>
+                    <td style="padding: 10px; text-align: center;">→</td>
+                    <td style="padding: 10px;"><code style="background: #0a0a0a; padding: 4px 8px; border-radius: 4px; color: #10b981;">repeat(3, 1fr)</code></td>
+                </tr>
+                <tr style="border-bottom: 1px solid rgba(59, 130, 246, 0.2);">
+                    <td style="padding: 10px; color: #aaa;">Card Layout</td>
+                    <td style="padding: 10px;"><code style="background: #0a0a0a; padding: 4px 8px; border-radius: 4px;">grid / 200px 1fr</code></td>
+                    <td style="padding: 10px; text-align: center;">→</td>
+                    <td style="padding: 10px;"><code style="background: #0a0a0a; padding: 4px 8px; border-radius: 4px; color: #10b981;">flex / column</code></td>
+                </tr>
+                <tr style="border-bottom: 1px solid rgba(59, 130, 246, 0.2);">
+                    <td style="padding: 10px; color: #aaa;">Image Position</td>
+                    <td style="padding: 10px;"><code style="background: #0a0a0a; padding: 4px 8px; border-radius: 4px;">LEFT (100% height)</code></td>
+                    <td style="padding: 10px; text-align: center;">→</td>
+                    <td style="padding: 10px;"><code style="background: #0a0a0a; padding: 4px 8px; border-radius: 4px; color: #10b981;">TOP (200px height)</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; color: #aaa;">Border</td>
+                    <td style="padding: 10px;"><code style="background: #0a0a0a; padding: 4px 8px; border-radius: 4px;">border-right</code></td>
+                    <td style="padding: 10px; text-align: center;">→</td>
+                    <td style="padding: 10px;"><code style="background: #0a0a0a; padding: 4px 8px; border-radius: 4px; color: #10b981;">border-bottom</code></td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; border-radius: 8px; padding: 20px; margin-top: 30px;">
+            <h3 style="color: #60a5fa; margin-top: 0;">✨ Result</h3>
+            <p>Your projects page now displays <span class="highlight">50% more project cards at once</span> with a cleaner, more modern vertical layout. The redesigned cards work perfectly on all screen sizes from mobile to desktop.</p>
+        </div>
+    </div>
+</body>
+</html>

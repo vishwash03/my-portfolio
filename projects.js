@@ -105,11 +105,11 @@ function displayProjects(projects) {
     
     return `
       <div class="project-card" style="position: relative;" data-project-id="${project.id}">
-        <div class="project-image-container" onclick="openImageModal('${project.id}')">
+        <div class="project-image-container" onclick="goToProjectDetail('${project.id}')">
           ${firstImage ? `<img src="${firstImage}" alt="${project.title}" class="project-image">` : '<div class="project-image-placeholder">📷</div>'}
         </div>
         <div class="project-info">
-          <h3 class="project-title">${project.title || 'Untitled'}</h3>
+          <h3 class="project-title" style="cursor: pointer;" onclick="goToProjectDetail('${project.id}')">${project.title || 'Untitled'}</h3>
           <p class="project-desc">${project.description || 'No description'}</p>
           <div class="project-tech">
             ${(project.technologies || []).map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
@@ -117,9 +117,10 @@ function displayProjects(projects) {
           <div class="project-actions">
             ${project.link ? `<a href="${project.link}" target="_blank" class="project-link">View Project</a>` : ''}
             ${project.github ? `<a href="${project.github}" target="_blank" class="project-link secondary">GitHub</a>` : ''}
+            <a href="/project-detail.html?id=${project.id}" class="project-link" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">View Details</a>
           </div>
         </div>
-        <div class="card-arrow">
+        <div class="card-arrow" style="cursor: pointer;" onclick="goToProjectDetail('${project.id}')">
           <svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 6v2h8.59L5 17.59 6.41 19 16 9.41V18h2V6z"/></svg>
         </div>
       </div>
@@ -128,6 +129,11 @@ function displayProjects(projects) {
 
   updateResultsCount(projects.length);
 }
+
+// ===== NAVIGATE TO PROJECT DETAIL =====
+window.goToProjectDetail = (projectId) => {
+  window.location.href = `/project-detail.html?id=${projectId}`;
+};
 
 // ===== POPULATE TECH FILTER =====
 function populateTechFilter() {
