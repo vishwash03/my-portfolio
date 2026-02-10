@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Test - Add Sample Project</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            color: #fff;
+        }
+    </style>
+</head>
+<body class="p-8">
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-lg p-8 border border-blue-500/20">
+            <h1 class="text-3xl font-bold mb-2 text-blue-400">🧪 Firebase Test Console</h1>
+            <p class="text-gray-400 mb-6">Test adding a sample project to Firebase</p>
+
+            <div class="space-y-4">
+                <button id="checkBtn" class="w-full bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition">
+                    ✅ Check Firebase Connection
+                </button>
+                <button id="loadBtn" class="w-full bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-semibold transition">
+                    📊 Load Existing Projects
+                </button>
+                <button id="addBtn" class="w-full bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-semibold transition">
+                    ➕ Add Sample Project
+                </button>
+                <button id="clearBtn" class="w-full bg-red-600 hover:bg-red-700 px-6 py-3 rounded-lg font-semibold transition">
+                    🗑️ Clear All Projects
+                </button>
+            </div>
+
+            <div id="output" class="mt-8 bg-black/50 rounded p-4 min-h-32 border border-blue-500/20 text-sm font-mono">
+                <p class="text-gray-500">Output will appear here...</p>
+            </div>
+
+            <div class="mt-6 text-center">
+                <a href="/projects.html" class="inline-block bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded-lg transition">
+                    View Projects Page →
+                </a>
+                <a href="/INDEX.HTML" class="inline-block bg-gray-700 hover:bg-gray-600 px-6 py-2 rounded-lg ml-2 transition">
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { projectsService } from './firebase.js';
+
+        const output = document.getElementById('output');
+
+        function log(message) {
+            output.innerHTML += `<p class="text-gray-300">${message}</p>`;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function clearLog() {
+            output.innerHTML = '';
+        }
+
+        document.getElementById('checkBtn').addEventListener('click', async () => {
+            clearLog();
+            log('🔍 Checking Firebase connection...');
+            try {
+                const projects = await projectsService.getAll();
+                log(`✅ Firebase Connected! Found ${projects.length} projects`);
+            } catch (error) {
+                log(`❌ Error: ${error.message}`);
+            }
+        });
+
+        document.getElementById('loadBtn').addEventListener('click', async () => {
+            clearLog();
+            log('📥 Loading projects...');
+            try {
+                const projects = await projectsService.getAll();
+                if (projects.length === 0) {
+                    log('No projects found. Add one using the "Add Sample Project" button.');
+                } else {
+                    projects.forEach((p, i) => {
+                        log(`${i + 1}. <strong>${p.title}</strong> - ${p.description}`);
+                    });
+                }
+            } catch (error) {
+                log(`❌ Error: ${error.message}`);
+            }
+        });
+
+        document.getElementById('addBtn').addEventListener('click', async () => {
+            clearLog();
+            log('➕ Adding sample project...');
+            
+            const sampleProject = {
+                title: 'SlayLink - URL Shortener',
+                description: 'A modern URL shortening service with analytics and custom domains. Built with Next.js, Prisma, and PostgreSQL.',
+                link: 'https://github.com/yourusername/slaylink',
+                technologies: ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL'],
+                images: ['https://via.placeholder.com/400x300?text=SlayLink'],
+                createdAt: new Date(),
+                featured: true
+            };
+
+            try {
+                const docRef = await projectsService.add(sampleProject);
+                log(`✅ Project added successfully!`);
+                log(`📝 Project ID: ${docRef}`);
+                log('🔄 Refresh the projects page to see your new project!');
+                log('<br>Or click: <a href="/projects.html" class="text-blue-400 underline">View Projects →</a>');
+            } catch (error) {
+                log(`❌ Error: ${error.message}`);
+            }
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', async () => {
+            if (!confirm('⚠️ Are you sure? This will delete ALL projects!')) return;
+            
+            clearLog();
+            log('🗑️ Deleting all projects...');
+            try {
+                const projects = await projectsService.getAll();
+                for (const project of projects) {
+                    await projectsService.delete(project.id);
+                    log(`Deleted: ${project.title}`);
+                }
+                log(`✅ All ${projects.length} projects deleted!`);
+            } catch (error) {
+                log(`❌ Error: ${error.message}`);
+            }
+        });
+    </script>
+</body>
+</html>

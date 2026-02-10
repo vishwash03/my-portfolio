@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Test Projects</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="p-8">
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-xl p-8 border border-blue-500/20">
+            <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                🚀 Add Test Projects
+            </h1>
+            <p class="text-gray-400 mb-8">Click the button below to add 4 sample projects to your portfolio</p>
+
+            <div class="space-y-3">
+                <button id="addProjectsBtn" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-lg font-semibold text-lg transition transform hover:scale-105 active:scale-95">
+                    ➕ Add 4 Sample Projects
+                </button>
+                <button id="viewProjectsBtn" class="w-full bg-green-600 hover:bg-green-700 px-8 py-3 rounded-lg font-semibold transition" onclick="window.location.href='/projects.html'">
+                    👀 View Projects Page
+                </button>
+                <button id="homeBtn" class="w-full bg-gray-700 hover:bg-gray-600 px-8 py-3 rounded-lg font-semibold transition" onclick="window.location.href='/INDEX.HTML'">
+                    🏠 Back to Home
+                </button>
+            </div>
+
+            <div id="status" class="mt-8 bg-black/50 rounded-lg p-6 min-h-40 border border-blue-500/20 text-sm font-mono space-y-2">
+                <p class="text-gray-500">Ready to add projects...</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { projectsService } from './firebase.js';
+
+        const status = document.getElementById('status');
+        const addBtn = document.getElementById('addProjectsBtn');
+
+        function log(message, type = 'info') {
+            const color = type === 'success' ? 'text-green-400' : type === 'error' ? 'text-red-400' : 'text-blue-400';
+            const p = document.createElement('p');
+            p.className = color;
+            p.innerHTML = message;
+            status.appendChild(p);
+            status.scrollTop = status.scrollHeight;
+        }
+
+        function clearLog() {
+            status.innerHTML = '';
+        }
+
+        const projects = [
+            {
+                title: 'SlayLink - URL Shortener',
+                description: 'Modern URL shortening service with analytics, custom domains, and QR code generation. Built with Next.js, TypeScript, and PostgreSQL.',
+                link: 'https://github.com/example/slaylink',
+                technologies: ['Next.js', 'TypeScript', 'PostgreSQL', 'Tailwind CSS'],
+                images: ['https://images.unsplash.com/photo-1633356122544-f134324ef6e2?w=400&h=300&fit=crop'],
+                featured: true,
+                website: 'https://slaylink.dev'
+            },
+            {
+                title: 'Asopalav - E-Commerce Platform',
+                description: 'Full-stack e-commerce solution with real-time inventory, Stripe payments, admin dashboard, and order tracking system.',
+                link: 'https://github.com/example/asopalav',
+                technologies: ['React', 'Node.js', 'MongoDB', 'Stripe', 'Socket.io'],
+                images: ['https://images.unsplash.com/photo-1661956600684-fa280b2fac22?w=400&h=300&fit=crop'],
+                featured: true,
+                website: 'https://asopalav.shop'
+            },
+            {
+                title: 'Outflow - Expense Tracker',
+                description: 'Smart expense tracking with budget planning, category management, recurring expenses, and financial insights dashboard.',
+                link: 'https://github.com/example/outflow',
+                technologies: ['React Native', 'Firebase', 'Redux', 'Chart.js'],
+                images: ['https://images.unsplash.com/photo-1579621970563-ebec5855cfb3?w=400&h=300&fit=crop'],
+                featured: true,
+                website: 'https://outflow.app'
+            },
+            {
+                title: 'PlaceAA - Travel Booking',
+                description: 'Comprehensive travel booking platform with real-time availability, price comparison, user reviews, and itinerary planning.',
+                link: 'https://github.com/example/placeaa',
+                technologies: ['Vue.js', 'Express.js', 'PostgreSQL', 'Google Maps API'],
+                images: ['https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop'],
+                featured: true,
+                website: 'https://placeaa.travel'
+            }
+        ];
+
+        addBtn.addEventListener('click', async () => {
+            clearLog();
+            addBtn.disabled = true;
+            addBtn.innerHTML = '<span class="loading"></span> Adding projects...';
+
+            for (let i = 0; i < projects.length; i++) {
+                const project = projects[i];
+                try {
+                    log(`📝 Adding (${i + 1}/4): <strong>${project.title}</strong>...`);
+                    
+                    const projectData = {
+                        ...project,
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    };
+                    
+                    const docRef = await projectsService.add(projectData);
+                    log(`✅ <strong>${project.title}</strong> added successfully!`, 'success');
+                    
+                } catch (error) {
+                    log(`❌ Failed: ${error.message}`, 'error');
+                }
+            }
+
+            log('', 'info');
+            log('🎉 <strong>All projects added!</strong>', 'success');
+            log('🔄 Refreshing projects page in 2 seconds...', 'info');
+            log('💡 Or <a href="/projects.html" class="text-blue-400 underline hover:text-blue-300">click here to view</a>', 'info');
+            
+            addBtn.disabled = false;
+            addBtn.innerHTML = '✅ Projects Added!';
+            addBtn.className = 'w-full bg-green-600 hover:bg-green-700 px-8 py-4 rounded-lg font-semibold text-lg transition transform hover:scale-105 active:scale-95';
+            
+            setTimeout(() => {
+                window.location.href = '/projects.html';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

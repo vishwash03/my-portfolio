@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="mobile-optimized.css">
     <link rel="stylesheet" href="mobile-device-detection.css">
     <script src="visitor-tracker-advanced.js"></script>
+    <!-- FIREBASE SCRIPTS -->
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="projects.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -652,16 +655,20 @@
 
         async function loadProjects() {
             try {
-                const res = await fetch('http://localhost:3000/api/projects');
-                if (!res.ok) throw new Error('Server error');
-                allProjects = await res.json();
-                if (!Array.isArray(allProjects)) allProjects = [];
+                // Load projects from Firebase using projects.js
+                // Projects are loaded by projects.js module
                 displayProject();
             } catch (e) {
-                console.log('Loading from localStorage:', e.message);
-                const stored = localStorage.getItem('vishwash_portfolio_projects');
-                allProjects = stored ? JSON.parse(stored) : [];
-                displayProject();
+                console.error('❌ Error loading projects from Firebase:', e.message);
+                document.querySelector('.project-header').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">❌</div>
+                        <div class="empty-state-title">Error Loading Project</div>
+                        <p style="margin-top: 15px;">
+                            <a href="/projects.html" class="btn btn-primary">← Back to Projects</a>
+                        </p>
+                    </div>
+                `;
             }
         }
 

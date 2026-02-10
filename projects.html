@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="mobile-device-detection.css">
     <script src="visitor-tracker-advanced.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FIREBASE SCRIPTS -->
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="projects.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -361,6 +364,45 @@
         .project-link.secondary:hover {
             background: rgba(59, 130, 246, 0.2);
             border-color: #3b82f6;
+        }
+
+        /* ===== CARD ARROW BUTTON ===== */
+        .card-arrow {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            pointer-events: none;
+        }
+
+        .project-card:hover .card-arrow {
+            transform: rotate(45deg) scale(1.2);
+            background: rgba(59, 130, 246, 0.4);
+            border-color: rgba(59, 130, 246, 0.6);
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .card-arrow svg {
+            width: 22px;
+            height: 22px;
+            color: white;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        .project-card:hover .card-arrow svg {
+            filter: drop-shadow(0 4px 8px rgba(59, 130, 246, 0.4));
         }
 
         @media (max-width: 1024px) {
@@ -797,153 +839,17 @@
             return base64OrUrl;
         }
 
-        // ===== PROJECTS =====
-        let allProjects = [];
-        let currentImageIndex = 0;
-        let currentProjectImages = [];
-
-        async function loadProjects() {
-            try {
-                // Try localStorage first (hybrid storage)
-                const localData = localStorage.getItem('portfolio_projects');
-                if (localData) {
-                    allProjects = JSON.parse(localData);
-                } else {
-                    // Fallback to old storage key
-                    allProjects = JSON.parse(localStorage.getItem('vishwash_portfolio_projects') || '[]');
-                }
-                
-                displayProjects(allProjects);
-                populateTechFilter();
-            } catch (e) {
-                console.log('Error loading projects:', e.message);
-                allProjects = [];
-                displayProjects(allProjects);
-            }
-        }
-
-        function displayProjects(projects) {
-            const container = document.getElementById('projectsContainer');
-            const empty = document.getElementById('emptyState');
-
-            if (projects.length === 0) {
-                container.innerHTML = '';
-                empty.style.display = 'block';
-                document.getElementById('resultsCount').textContent = '0';
-                return;
-            }
-
-            empty.style.display = 'none';
-            container.innerHTML = projects.map((p, idx) => {
-                const hasImages = p.images && p.images.length > 0;
-                const imageUrls = hasImages ? p.images.map(img => getImageUrl(img)).filter(Boolean) : [];
-                
-                return `
-                    <div class="project-card">
-                        <div class="project-image-container" onclick="openImageModal('${p.id}')">
-                            ${imageUrls.length > 0 
-                                ? `<div class="image-carousel" data-card-id="${idx}">
-                                    ${imageUrls.map((url, imgIdx) => `<img src="${url}" alt="${p.title}" class="carousel-image ${imgIdx === 0 ? 'active' : ''}" onerror="this.style.display='none'">`).join('')}
-                                   </div>`
-                                : `<div class="project-image-placeholder">🖼️</div>`
-                            }
-                        </div>
-                        <div class="project-info">
-                            <div>
-                                <h3 class="project-title">${p.title}</h3>
-                                <p class="project-desc">${p.description || 'No description'}</p>
-                            </div>
-                            <div>
-                                <div class="project-tech">
-                                    ${(p.technologies || []).slice(0, 4).map(t => `<span class="tech-tag">${t}</span>`).join('')}
-                                </div>
-                                <div class="project-actions">
-                                    <a href="project-detail.html?id=${p.id}" class="project-link">📋 Details</a>
-                                    ${p.link && p.link !== '#' ? `<a href="${p.link}" target="_blank" class="project-link secondary">🔗 Live</a>` : ''}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            // Initialize carousel auto-slide
-            initializeCarousels();
-            document.getElementById('resultsCount').textContent = projects.length;
-        }
-
-        function initializeCarousels() {
-            const carousels = document.querySelectorAll('.image-carousel');
-            carousels.forEach(carousel => {
-                const images = carousel.querySelectorAll('.carousel-image');
-                if (images.length > 1) {
-                    let currentIndex = 0;
-                    setInterval(() => {
-                        images.forEach(img => img.classList.remove('active'));
-                        currentIndex = (currentIndex + 1) % images.length;
-                        images[currentIndex].classList.add('active');
-                    }, 2000);
-                }
-            });
-        }
-
-        function populateTechFilter() {
-            const techs = [...new Set(allProjects.flatMap(p => p.technologies || []))];
-            const select = document.getElementById('techFilter');
-            select.innerHTML = '<option value="">All Technologies</option>' + 
-                techs.map(t => `<option value="${t}">${t}</option>`).join('');
-        }
-
-        function filterProjects() {
-            const search = document.getElementById('searchInput').value.toLowerCase();
-            const tech = document.getElementById('techFilter').value;
-
-            const filtered = allProjects.filter(p => {
-                const matchSearch = p.title.toLowerCase().includes(search) || 
-                                   p.description.toLowerCase().includes(search);
-                const matchTech = !tech || (p.technologies || []).includes(tech);
-                return matchSearch && matchTech;
-            });
-
-            displayProjects(filtered);
-        }
-
+        // Projects are now loaded by projects.js using Firebase
+        // Old localStorage code disabled - using Firestore instead
+        
+        // ===== IMAGE MODAL ===== 
         function openImageModal(projectId) {
-            const project = allProjects.find(p => p.id === projectId);
-            if (project && project.images?.length) {
-                currentProjectImages = project.images.map(img => getImageUrl(img)).filter(Boolean);
-                if (currentProjectImages.length === 0) return;
-                currentImageIndex = 0;
-                showImage();
-                document.getElementById('imageModal').classList.add('active');
-            }
+            // This will be handled by projects.js
         }
 
         function closeImageModal() {
             document.getElementById('imageModal').classList.remove('active');
         }
-
-        function showImage() {
-            document.getElementById('modalImage').src = currentProjectImages[currentImageIndex];
-        }
-
-        function nextImage() {
-            currentImageIndex = (currentImageIndex + 1) % currentProjectImages.length;
-            showImage();
-        }
-
-        function previousImage() {
-            currentImageIndex = (currentImageIndex - 1 + currentProjectImages.length) % currentProjectImages.length;
-            showImage();
-        }
-
-        document.getElementById('searchInput').addEventListener('input', filterProjects);
-        document.getElementById('techFilter').addEventListener('change', filterProjects);
-
-        // Initial load
-        loadProjects();
-        // Refresh every 5 seconds to show real-time updates
-        setInterval(loadProjects, 5000);
     </script>
 </body>
 </html>

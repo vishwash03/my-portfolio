@@ -1,0 +1,478 @@
+<!-- 
+  FIREBASE HTML INTEGRATION EXAMPLES
+  Reference templates for updating your existing HTML files
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Integration Examples</title>
+  <style>
+    body {
+      font-family: monospace;
+      max-width: 900px;
+      margin: 20px auto;
+      background: #0a0a0a;
+      color: #e5e7eb;
+      padding: 20px;
+    }
+    .example {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    h2 {
+      color: #3b82f6;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 10px;
+    }
+    code {
+      background: #000;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: block;
+      overflow-x: auto;
+      margin: 10px 0;
+      padding: 15px;
+    }
+    .note {
+      background: #1f3a5f;
+      border-left: 4px solid #3b82f6;
+      padding: 10px 15px;
+      margin: 10px 0;
+    }
+    .success {
+      background: #0d3d1a;
+      border-left: 4px solid #10b981;
+      padding: 10px 15px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🔥 Firebase Integration - HTML Examples</h1>
+
+<p>Copy & paste the code from matching sections into your HTML files.</p>
+
+<!-- ============================================================================ -->
+<div class="example">
+<h2>1️⃣ projects.html - Display Projects with Real-time Updates</h2>
+
+<p>Add this to your HTML <code>&lt;head&gt;</code> section or just before <code>&lt;/body&gt;</code>:</p>
+
+<code>&lt;script type="module"&gt;
+  import { projectService } from './firebase-project-service.js';
+
+  let projects = [];
+  let unsubscribe = null;
+
+  // Load projects with real-time listener
+  async function initializeProjects() {
+    try {
+      // Set up real-time updates
+      unsubscribe = projectService.onProjectsUpdate((updatedProjects) => {
+        projects = updatedProjects;
+        console.log(`✅ Projects updated: ${projects.length}`);
+        renderProjects();
+      });
+
+      // Initial load
+      projects = await projectService.getAllProjects();
+      renderProjects();
+    } catch (error) {
+      console.error('❌ Error loading projects:', error);
+    }
+  }
+
+  // Render projects to DOM
+  function renderProjects() {
+    const container = document.getElementById('projects-container');
+    if (!container) return;
+
+    if (projects.length === 0) {
+      container.innerHTML = '&lt;p&gt;No projects yet&lt;/p&gt;';
+      return;
+    }
+
+    container.innerHTML = projects.map(project =&gt; `
+      &lt;div class="project-card" data-id="${project.id}"&gt;
+        &lt;img src="${project.images?.[0] || './placeholder.png'}" 
+             alt="${project.title}"
+             onerror="this.src='./placeholder.png'"&gt;
+        &lt;h3&gt;${project.title}&lt;/h3&gt;
+        &lt;p&gt;${project.description}&lt;/p&gt;
+        &lt;div class="technologies"&gt;
+          ${project.technologies?.map(t =&gt; `&lt;span&gt;${t}&lt;/span&gt;`).join('')}
+        &lt;/div&gt;
+        &lt;div class="links"&gt;
+          ${project.liveUrl ? `&lt;a href="${project.liveUrl}" target="_blank"&gt;Live&lt;/a&gt;` : ''}
+          ${project.githubUrl ? `&lt;a href="${project.githubUrl}" target="_blank"&gt;GitHub&lt;/a&gt;` : ''}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    `).join('');
+  }
+
+  // Initialize when page loads
+  document.addEventListener('DOMContentLoaded', initializeProjects);
+
+  // Cleanup when leaving page
+  window.addEventListener('beforeunload', () =&gt; {
+    if (unsubscribe) unsubscribe();
+  });
+&lt;/script&gt;</code>
+
+<div class="note">
+  <strong>⚠️ Important:</strong> Make sure your HTML has a container with id="projects-container"
+  <br/>&lt;div id="projects-container" class="projects-grid"&gt;&lt;/div&gt;
+</div>
+
+<div class="success">
+  <strong>✅ Result:</strong> Projects load instantly and update automatically when admin adds new ones!
+</div>
+
+</div>
+
+<!-- ============================================================================ -->
+<div class="example">
+<h2>2️⃣ admin-add-project.html - Form Submission</h2>
+
+<p>Add this to handle project creation:</p>
+
+<code>&lt;script type="module"&gt;
+  import { projectService } from './firebase-project-service.js';
+
+  // Handle form submission
+  async function handleAddProject(event) {
+    event.preventDefault();
+
+    try {
+      // Check if user is admin
+      const isAdmin = await projectService.isAdminLoggedIn();
+      if (!isAdmin) {
+        alert('❌ You must be logged in as admin');
+        return;
+      }
+
+      // Get form data
+      const formData = new FormData(event.target);
+
+      // Prepare project object
+      const projectData = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        images: [formData.get('imageUrl')], // Or upload to Firebase Storage
+        technologies: formData.get('technologies')
+          .split(',')
+          .map(t =&gt; t.trim())
+          .filter(t =&gt; t),
+        liveUrl: formData.get('liveUrl'),
+        githubUrl: formData.get('githubUrl'),
+        featured: formData.get('featured') === 'on',
+        category: formData.get('category')
+      };
+
+      // Validate
+      if (!projectData.title || !projectData.description) {
+        alert('❌ Title and description are required');
+        return;
+      }
+
+      // Add to Firebase
+      const project = await projectService.addProject(projectData);
+      
+      // Show success
+      alert(`✅ Project "${project.title}" added successfully!`);
+      
+      // Reset form
+      event.target.reset();
+      
+      // Redirect
+      setTimeout(() =&gt; {
+        window.location.href = 'admin-project-manager.html';
+      }, 1000);
+
+    } catch (error) {
+      console.error('❌ Error:', error);
+      alert(`❌ Error: ${error.message}`);
+    }
+  }
+
+  // Attach to form
+  const form = document.getElementById('add-project-form');
+  if (form) {
+    form.addEventListener('submit', handleAddProject);
+  }
+&lt;/script&gt;</code>
+
+<div class="note">
+  <strong>⚠️ Image Handling:</strong> 
+  <br/>Option A: Use image URL directly (easiest)
+  <br/>Option B: Upload to Firebase Storage (for user-uploaded images)
+</div>
+
+</div>
+
+<!-- ============================================================================ -->
+<div class="example">
+<h2>3️⃣ admin-project-manager.html - Edit/Delete Projects</h2>
+
+<p>Add these functions to manage existing projects:</p>
+
+<code>&lt;script type="module"&gt;
+  import { projectService } from './firebase-project-service.js';
+
+  let managedProjects = [];
+  let unsubscribe = null;
+
+  // Load projects for admin
+  async function loadProjectsForAdmin() {
+    try {
+      // Real-time updates for admin
+      unsubscribe = projectService.onProjectsUpdate((projects) =&gt; {
+        managedProjects = projects;
+        renderProjectsTable();
+      });
+
+      managedProjects = await projectService.getAllProjects();
+      renderProjectsTable();
+    } catch (error) {
+      console.error('❌ Error:', error);
+    }
+  }
+
+  // Display projects in table
+  function renderProjectsTable() {
+    const tableBody = document.getElementById('projects-table');
+    if (!tableBody) return;
+
+    tableBody.innerHTML = managedProjects.map(p =&gt; `
+      &lt;tr&gt;
+        &lt;td&gt;${p.title}&lt;/td&gt;
+        &lt;td&gt;${p.technologies?.join(', ') || 'N/A'}&lt;/td&gt;
+        &lt;td&gt;${p.featured ? '✅' : '❌'}&lt;/td&gt;
+        &lt;td&gt;
+          &lt;button onclick="editProject('${p.id}')"&gt;Edit&lt;/button&gt;
+          &lt;button onclick="deleteProject('${p.id}', '${p.title}')" 
+                  style="background: #ef4444;"&gt;Delete&lt;/button&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+    `).join('');
+  }
+
+  // Edit project
+  async function editProject(projectId) {
+    try {
+      const project = await projectService.getProjectById(projectId);
+      if (!project) {
+        alert('❌ Project not found');
+        return;
+      }
+
+      // Show edit form (you can use modal, new page, etc.)
+      const newTitle = prompt('New title:', project.title);
+      if (!newTitle) return;
+
+      const updated = await projectService.updateProject(projectId, {
+        ...project,
+        title: newTitle
+      });
+
+      alert(`✅ Updated: ${updated.title}`);
+    } catch (error) {
+      alert(`❌ Error: ${error.message}`);
+    }
+  }
+
+  // Delete project
+  async function deleteProject(projectId, projectTitle) {
+    if (!confirm(`Delete "${projectTitle}"?\n\nThis cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      await projectService.deleteProject(projectId);
+      alert('✅ Project deleted');
+    } catch (error) {
+      alert(`❌ Error: ${error.message}`);
+    }
+  }
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', loadProjectsForAdmin);
+  window.addEventListener('beforeunload', () =&gt; unsubscribe?.());
+
+  // Make functions global for onclick handlers
+  window.editProject = editProject;
+  window.deleteProject = deleteProject;
+&lt;/script&gt;</code>
+
+<div class="note">
+  <strong>⚠️ Table Structure:</strong> Make sure your HTML has:
+  <br/>&lt;table id="projects-table"&gt;&lt;thead&gt;...&lt;/thead&gt;&lt;tbody&gt;&lt;/tbody&gt;&lt;/table&gt;
+</div>
+
+</div>
+
+<!-- ============================================================================ -->
+<div class="example">
+<h2>4️⃣ Firebase Initialization Check</h2>
+
+<p>Add this to verify Firebase is working:</p>
+
+<code>&lt;script type="module"&gt;
+  import { projectService } from './firebase-project-service.js';
+
+  async function testFirebase() {
+    try {
+      console.log('Testing Firebase...');
+
+      // Test 1: Get all projects
+      const projects = await projectService.getAllProjects();
+      console.log(`✅ Projects loaded: ${projects.length}`);
+
+      // Test 2: Check auth status
+      const user = projectService.getCurrentUser();
+      console.log(`✅ Current user: ${user?.email || 'Not logged in'}`);
+
+      // Test 3: Check admin status
+      const isAdmin = await projectService.isAdminLoggedIn();
+      console.log(`✅ Is admin: ${isAdmin}`);
+
+      console.log('✅ Firebase is working!');
+    } catch (error) {
+      console.error('❌ Firebase Error:', error);
+    }
+  }
+
+  // Run test when page loads
+  document.addEventListener('DOMContentLoaded', testFirebase);
+&lt;/script&gt;</code>
+
+<div class="note">
+  <strong>🔍 How to check:</strong> 
+  <br/>1. Open your page
+  <br/>2. Open Developer Tools (F12)
+  <br/>3. Go to Console tab
+  <br/>4. Look for ✅ messages
+</div>
+
+</div>
+
+<!-- ============================================================================ -->
+<div class="example">
+<h2>5️⃣ Import/Export Projects (Backup)</h2>
+
+<p>Add buttons to backup your projects:</p>
+
+<code>&lt;!-- HTML Buttons --&gt;
+&lt;button onclick="exportProjects()"&gt;📥 Export Projects&lt;/button&gt;
+&lt;input type="file" id="importFile" accept=".json" onchange="importProjects(event)"&gt;
+
+&lt;script type="module"&gt;
+  import { projectService } from './firebase-project-service.js';
+
+  // Export all projects
+  async function exportProjects() {
+    try {
+      const projects = await projectService.exportProjects();
+      
+      const json = JSON.stringify(projects, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `projects-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      alert(`✅ Exported ${projects.length} projects`);
+    } catch (error) {
+      alert(`❌ Export failed: ${error.message}`);
+    }
+  }
+
+  // Import projects
+  async function importProjects(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+      const json = await file.text();
+      const projects = JSON.parse(json);
+
+      const imported = await projectService.importProjects(projects);
+      alert(`✅ Imported ${imported.length} projects`);
+      location.reload();
+    } catch (error) {
+      alert(`❌ Import failed: ${error.message}`);
+    }
+  }
+
+  window.exportProjects = exportProjects;
+  window.importProjects = importProjects;
+&lt;/script&gt;</code>
+
+</div>
+
+<!-- ============================================================================ -->
+<div class="example">
+<h2>6️⃣ Common Error Fixes</h2>
+
+<table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse;">
+  <tr>
+    <td><strong>Error</strong></td>
+    <td><strong>Cause</strong></td>
+    <td><strong>Fix</strong></td>
+  </tr>
+  <tr>
+    <td>"Cannot find module"</td>
+    <td>firebase-config.js not found</td>
+    <td>Check file exists in project root</td>
+  </tr>
+  <tr>
+    <td>"Firebase is not defined"</td>
+    <td>Not using `type="module"`</td>
+    <td>Add `type="module"` to script tag</td>
+  </tr>
+  <tr>
+    <td>"Permission denied"</td>
+    <td>User not admin in Firestore</td>
+    <td>Check admin_users collection in Firestore</td>
+  </tr>
+  <tr>
+    <td>"Projects don't sync"</td>
+    <td>Real-time listener not set up</td>
+    <td>Use `onProjectsUpdate()` instead of one-time load</td>
+  </tr>
+  <tr>
+    <td>"Images don't load"</td>
+    <td>Using local file paths</td>
+    <td>Use shared URLs or Firebase Storage</td>
+  </tr>
+</table>
+
+</div>
+
+<!-- ============================================================================ -->
+<div class="example">
+<h2>Testing Checklist</h2>
+
+<ul>
+  <li>✅ Firebase credentials are in firebase-config.js</li>
+  <li>✅ Projects load on projects.html</li>
+  <li>✅ Admin can add project from admin-add-project.html</li>
+  <li>✅ New project appears instantly on projects.html (same device)</li>
+  <li>✅ New project appears on another device/browser</li>
+  <li>✅ Admin can edit/delete projects</li>
+  <li>✅ Images display correctly</li>
+  <li>✅ Works on Netlify live website</li>
+</ul>
+
+</div>
+
+</body>
+</html>
