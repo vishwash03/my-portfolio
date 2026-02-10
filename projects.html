@@ -423,6 +423,7 @@
             .project-desc {
                 font-size: 11px;
                 -webkit-line-clamp: 2;
+                line-clamp: 2;
             }
         }
 
@@ -475,6 +476,7 @@
             .project-desc {
                 font-size: 11px;
                 -webkit-line-clamp: 1;
+                line-clamp: 1;
             }
         }
 
@@ -507,6 +509,7 @@
             .project-desc {
                 font-size: 12px;
                 -webkit-line-clamp: 2;
+                line-clamp: 2;
             }
         }
 
@@ -531,6 +534,7 @@
             .project-desc {
                 font-size: 11px;
                 -webkit-line-clamp: 1;
+                line-clamp: 1;
             }
 
             .tech-tag {
@@ -773,8 +777,8 @@
 
         <!-- FILTERS -->
         <div class="filters">
-            <input type="text" id="searchInput" placeholder="Search projects..." />
-            <select id="techFilter" title="Filter projects by technology">
+            <input type="text" id="searchInput" placeholder="Search projects..." oninput="handleSearch(this.value)" />
+            <select id="techFilter" title="Filter projects by technology" onchange="handleTechFilter(this.value)">
                 <option value="">All Technologies</option>
             </select>
             <div class="results-count"><span id="resultsCount">0</span> projects found</div>
