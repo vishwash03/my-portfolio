@@ -5,6 +5,8 @@
 
 import { projectsService } from './firebase.js';
 
+console.log('🚀 projects.js module loading...');
+
 let allProjects = [];
 let filteredProjects = [];
 let currentFilter = 'all';
@@ -57,21 +59,52 @@ const SAMPLE_PROJECTS = [
 // ===== LOAD PROJECTS =====
 async function loadProjects() {
   try {
-    console.log('Loading projects from Firebase...');
-    allProjects = await projectsService.getAll();
-    console.log('Projects loaded from Firebase:', allProjects.length);
+    console.log('🔄 Loading projects...');
     
-    // Use sample projects if Firebase is empty
+    // PRIORITY 1: Try localStorage first (immediate availability)
+    let projectsFromStorage = [];
+    try {
+      const stored = localStorage.getItem('portfolio_projects');
+      if (stored) {
+        projectsFromStorage = JSON.parse(stored);
+        console.log('✅ Loaded', projectsFromStorage.length, 'projects from localStorage');
+      }
+    } catch (e) {
+      console.log('localStorage not available');
+    }
+    
+    // PRIORITY 2: Load from Firebase and merge
+    try {
+      console.log('🔄 Attempting to load from Firebase...');
+      const firebaseProjects = await projectsService.getAll();
+      console.log('✅ Loaded', firebaseProjects.length, 'projects from Firebase');
+      
+      if (firebaseProjects && firebaseProjects.length > 0) {
+        // Merge: Firebase is the source of truth, but add any local-only projects
+        const firebaseIds = new Set(firebaseProjects.map(p => p.id));
+        const localOnly = projectsFromStorage.filter(p => !firebaseIds.has(p.id));
+        allProjects = [...firebaseProjects, ...localOnly];
+      } else {
+        allProjects = projectsFromStorage;
+      }
+    } catch (error) {
+      console.log('⚠️ Firebase not available, using localStorage only');
+      allProjects = projectsFromStorage;
+    }
+    
+    // PRIORITY 3: Use sample projects if nothing found
     if (!allProjects || allProjects.length === 0) {
-      console.warn('⚠️ No projects in Firebase, using sample projects');
+      console.warn('⚠️ No projects found, using sample projects');
       allProjects = SAMPLE_PROJECTS;
     }
     
     displayProjects(allProjects);
     populateTechFilter();
     updateResultsCount(allProjects.length);
+    
+    console.log('✅ Projects loaded. Total:', allProjects.length);
   } catch (error) {
-    console.error('❌ Error loading projects:', error);
+    console.error('❌ Error in loadProjects:', error);
     // Use sample projects on error
     allProjects = SAMPLE_PROJECTS;
     displayProjects(allProjects);
@@ -85,19 +118,25 @@ function displayProjects(projects) {
   const container = document.getElementById('projectsContainer');
   const emptyState = document.getElementById('emptyState');
   
+  console.log('📊 displayProjects called');
+  console.log('Container found:', !!container);
+  console.log('Projects count:', projects.length);
+  console.log('Projects data:', projects);
+  
   if (!container) {
-    console.error('Container not found');
+    console.error('❌ Container not found - element with id="projectsContainer" does not exist!');
     return;
   }
 
   if (projects.length === 0) {
+    console.warn('⚠️ No projects to display, showing empty state');
     container.innerHTML = '';
-    emptyState.style.display = 'block';
+    if (emptyState) emptyState.style.display = 'block';
     updateResultsCount(0);
     return;
   }
 
-  emptyState.style.display = 'none';
+  if (emptyState) emptyState.style.display = 'none';
 
   container.innerHTML = projects.map((project, idx) => {
     const images = project.images && Array.isArray(project.images) ? project.images : [];
@@ -126,6 +165,7 @@ function displayProjects(projects) {
     `;
   }).join('');
 
+  console.log('✅ Projects displayed:', projects.length);
   updateResultsCount(projects.length);
 }
 
@@ -249,6 +289,8 @@ function showImage(projectId) {
 
 // ===== EVENT LISTENERS =====
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('📄 DOMContentLoaded event fired');
+  
   const searchInput = document.getElementById('searchInput');
   if (searchInput) {
     searchInput.addEventListener('input', handleSearch);
@@ -259,7 +301,12 @@ document.addEventListener('DOMContentLoaded', () => {
     techFilter.addEventListener('change', handleTechFilter);
   }
 
-  loadProjects();
+  // Add a small delay to ensure Firebase is fully initialized
+  console.log('⏳ Waiting for Firebase to initialize...');
+  setTimeout(() => {
+    console.log('✅ Firebase should be ready, loading projects...');
+    loadProjects();
+  }, 100);
 });
 
 // Close modal when clicking outside

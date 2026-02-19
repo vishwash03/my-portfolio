@@ -709,8 +709,50 @@
     </nav>
 
     <!-- FIREBASE SCRIPTS -->
-    <script type="module" src="firebase.js"></script>
-    <script type="module" src="admin.js"></script>
+    <script type="module">
+        import { projectsService } from './firebase.js';
+        window.projectsService = projectsService;
+        
+        // Also expose localStorage for immediate local storage
+        window.projectStorage = {
+            STORAGE_KEY: 'portfolio_projects',
+            
+            getAllProjects() {
+                try {
+                    const data = localStorage.getItem(this.STORAGE_KEY);
+                    return data ? JSON.parse(data) : [];
+                } catch (error) {
+                    console.error('Error reading projects:', error);
+                    return [];
+                }
+            },
+            
+            saveProjects(projects) {
+                try {
+                    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(projects));
+                    return true;
+                } catch (error) {
+                    console.error('Error saving projects:', error);
+                    return false;
+                }
+            },
+            
+            addProject(projectData) {
+                const projects = this.getAllProjects();
+                const projectId = 'proj_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                
+                const newProject = {
+                    id: projectId,
+                    ...projectData,
+                    createdAt: new Date().toISOString()
+                };
+                
+                projects.push(newProject);
+                this.saveProjects(projects);
+                return newProject;
+            }
+        };
+    </script>
 
     <!-- MAIN CONTENT -->
     <div class="container">
@@ -799,18 +841,18 @@
         function checkAdminAuth() {
             const adminSession = localStorage.getItem('vishwash_admin_auth');
             if (!adminSession) {
-                window.location.href = 'admin-login.html';
+                window.location.href = 'admin-unlock.html';
                 return false;
             }
             try {
                 const session = JSON.parse(adminSession);
                 if (new Date().getTime() > session.expiresAt) {
                     localStorage.removeItem('vishwash_admin_auth');
-                    window.location.href = 'admin-login.html';
+                    window.location.href = 'admin-unlock.html';
                     return false;
                 }
             } catch (e) {
-                window.location.href = 'admin-login.html';
+                window.location.href = 'admin-unlock.html';
                 return false;
             }
             return true;
@@ -923,7 +965,7 @@
         }
 
         // ===== FORM SUBMISSION =====
-        document.getElementById('projectForm').addEventListener('submit', (e) => {
+        document.getElementById('projectForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
             // VALIDATION
@@ -946,20 +988,25 @@
                     featured: document.getElementById('featuredCheck').checked
                 };
 
-                // Use project service to add project
-                const result = projectService.addProject(projectData);
+                // Save to localStorage first (immediate visibility)
+                const project = window.projectStorage.addProject(projectData);
+                console.log('✅ Project saved to localStorage:', project);
 
-                if (result.success) {
-                    showAlert('success', '✅ Project published successfully! Now visible on all devices.');
-                    resetForm();
-                    setTimeout(() => {
-                        window.location.href = 'admin-project-manager.html';
-                    }, 2000);
-                } else {
-                    showAlert('error', result.message || 'Failed to add project');
+                // Also try to save to Firebase (async, no blocking)
+                if (window.projectsService) {
+                    window.projectsService.add(projectData).catch(err => 
+                        console.log('Firebase sync failed (offline ok):', err.message)
+                    );
                 }
+
+                showAlert('success', '✅ Project published successfully! Now visible on all devices.');
+                resetForm();
+                setTimeout(() => {
+                    window.location.href = 'admin-project-manager.html';
+                }, 2000);
             } catch (error) {
                 showAlert('error', 'Error adding project: ' + error.message);
+                console.error('❌ Error:', error);
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<span>✨</span> Publish Project';

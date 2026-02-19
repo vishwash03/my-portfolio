@@ -510,8 +510,10 @@
             border: 1px solid rgba(59, 130, 246, 0.1);
             animation: slideInUp 0.5s ease-out forwards;
             opacity: 0;
-            will-change: transform, opacity, box-shadow;
+            will-change: transform, opacity, box-shadow, background-position;
             touch-action: manipulation;
+            transform: translateY(0);
+            transition: all 0.3s ease, transform 0s linear;
         }
 
         @media (max-width: 767px) {
@@ -571,6 +573,21 @@
                 0 0 30px rgba(59, 130, 246, 0.25),
                 0 25px 70px rgba(59, 130, 246, 0.2),
                 inset 0 0 20px rgba(59, 130, 246, 0.05);
+        }
+
+        /* Parallax effect only on desktop */
+        @media (min-width: 768px) {
+            .grid-card {
+                perspective: 1200px;
+            }
+            
+            .grid-card[data-parallax="left"] {
+                /* Left cards move up on scroll */
+            }
+            
+            .grid-card[data-parallax="right"] {
+                /* Right cards move down on scroll */
+            }
         }
 
         /* Enhanced border glow */
@@ -1154,20 +1171,32 @@
             <main class="flex-1 pt-4 pb-6">
                 <div class="w-full h-full">
                     <div class="grid gap-4 md:gap-5 md:grid-cols-4 grid-cols-1 auto-rows-max md:auto-rows-[250px]">
-                        <!-- Projects Card - Large -->
-                        <a href="/projects.html" class="grid-card card-projects md:col-span-2 md:row-span-2 rounded-[20px] overflow-hidden relative flex justify-center items-center group cursor-pointer w-full h-[280px] md:h-full transition-all duration-300 hover:shadow-2xl">
+                        <!-- Projects Card - Large (LEFT SIDE) with Image Carousel -->
+                        <a href="/projects.html" class="grid-card card-projects md:col-span-2 md:row-span-2 rounded-[20px] overflow-hidden relative flex justify-center items-center group cursor-pointer w-full h-[280px] md:h-full transition-all duration-300 hover:shadow-2xl" data-parallax="left">
+                            <!-- Carousel Container -->
+                            <div class="carousel-container absolute inset-0 w-full h-full">
+                                <img src="./assets/image/slaylink-project%20(1).webp" alt="Slaylink Project" class="carousel-image absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-1000" style="opacity: 1;">
+                                <img src="./assets/image/slaylink-project%20(2).webp" alt="Slaylink Project 2" class="carousel-image absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000">
+                                <img src="./assets/image/fuelgo.webp" alt="FuelGo Project" class="carousel-image absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000">
+                                <img src="./assets/image/ignition.webp" alt="Ignition Project" class="carousel-image absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000">
+                            </div>
+                            
+                            <!-- Content Overlay -->
                             <div class="relative z-10 text-center">
                                 <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">My Projects</h2>
                                 <p class="text-sm text-gray-300">Showcase of my work</p>
                             </div>
+                            
+                            <!-- Enhanced Gradient Overlay -->
+                            <div class="absolute inset-0 z-5 bg-gradient-to-b from-black/95 to-black/0 pointer-events-none"></div>
                             <div class="card-bg-gradient"></div>
                             <div class="card-arrow group-hover:bg-white group-hover:shadow-lg">
                                 <svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 6v2h8.59L5 17.59 6.41 19 16 9.41V18h2V6z"/></svg>
                             </div>
                         </a>
 
-                        <!-- Experience Card - Large Right Top -->
-                        <a href="/experience.html" class="grid-card card-experience md:col-span-2 md:row-span-1 rounded-[20px] overflow-hidden relative flex justify-center items-center group cursor-pointer w-full h-[280px] md:h-full transition-all duration-300 hover:shadow-2xl">
+                        <!-- Experience Card - Large Right Top (RIGHT SIDE) -->
+                        <a href="/experience.html" class="grid-card card-experience md:col-span-2 md:row-span-1 rounded-[20px] overflow-hidden relative flex justify-center items-center group cursor-pointer w-full h-[280px] md:h-full transition-all duration-300 hover:shadow-2xl" data-parallax="right">
                             <div class="relative z-10 text-center">
                                 <h2 class="text-3xl md:text-4xl font-bold text-white">My Experience</h2>
                             </div>
@@ -1177,8 +1206,8 @@
                             </div>
                         </a>
 
-                        <!-- Tech Stack Card -->
-                        <a href="/stack.html" class="grid-card card-stack relative md:col-span-2 md:row-span-2 rounded-[20px] overflow-hidden h-[280px] md:h-full group cursor-pointer w-full flex items-center justify-center transition-all duration-300 hover:shadow-2xl">
+                        <!-- Tech Stack Card (LEFT SIDE) -->
+                        <a href="/stack.html" class="grid-card card-stack relative md:col-span-2 md:row-span-2 rounded-[20px] overflow-hidden h-[280px] md:h-full group cursor-pointer w-full flex items-center justify-center transition-all duration-300 hover:shadow-2xl" data-parallax="left">
                             <div class="relative z-10 text-center p-6">
                                 <h2 class="font-bold text-white text-3xl md:text-4xl mb-4 letter-spacing -1px">My Stack</h2>
                                 <div class="flex justify-center gap-3 flex-wrap">
@@ -1192,8 +1221,8 @@
                             </div>
                         </a>
 
-                        <!-- About Section Card -->
-                        <a href="/about.html" class="grid-card card-about md:col-span-2 md:row-span-1 rounded-[20px] relative overflow-hidden h-[280px] md:h-full transition-all duration-300 hover:shadow-2xl">
+                        <!-- About Section Card (RIGHT SIDE) -->
+                        <a href="/about.html" class="grid-card card-about md:col-span-2 md:row-span-1 rounded-[20px] relative overflow-hidden h-[280px] md:h-full transition-all duration-300 hover:shadow-2xl" data-parallax="right">
                             <div class="relative z-10 h-full flex flex-col justify-between p-6">
                                 <h2 class="font-bold text-3xl md:text-4xl text-white">About</h2>
                                 <p class="text-sm text-gray-300 max-w-xs">Learn more about my journey and passion</p>
@@ -1204,8 +1233,8 @@
                             </div>
                         </a>
 
-                        <!-- Contact Card -->
-                        <a href="/contact.html" class="grid-card card-contact relative md:col-span-2 md:row-span-1 rounded-[20px] items-center justify-center overflow-hidden py-8 group cursor-pointer h-[280px] md:h-full w-full transition-all duration-300 hover:shadow-2xl">
+                        <!-- Contact Card (LEFT SIDE) -->
+                        <a href="/contact.html" class="grid-card card-contact relative md:col-span-2 md:row-span-1 rounded-[20px] items-center justify-center overflow-hidden py-8 group cursor-pointer h-[280px] md:h-full w-full transition-all duration-300 hover:shadow-2xl" data-parallax="left">
                             <div class="relative z-10 text-center">
                                 <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Contact</h2>
                                 <p class="text-sm text-gray-200">Contact me for opportunities</p>
@@ -1400,14 +1429,79 @@
             });
         });
 
-        /* Image parallax on scroll */
-        window.addEventListener('scroll', () => {
-            document.querySelectorAll('.grid-card').forEach((card, index) => {
-                const scrolled = window.pageYOffset;
-                const parallaxValue = scrolled * (0.1 + index * 0.05);
-                card.style.backgroundPosition = `center calc(50% + ${parallaxValue * 0.3}px)`;
+        // Hover interaction with parallax effect
+        document.querySelectorAll('.grid-card').forEach((card) => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transition = 'all 0.3s ease';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transition = 'all 0.3s ease, transform 0s linear';
             });
         });
+
+        /* Image parallax on scroll - Desktop only */
+        window.addEventListener('scroll', () => {
+            // Only apply parallax on desktop screens (min-width: 768px)
+            if (window.innerWidth < 768) return;
+            
+            const scrolled = window.pageYOffset;
+            
+            document.querySelectorAll('.grid-card').forEach((card) => {
+                const parallaxType = card.getAttribute('data-parallax');
+                
+                // Calculate parallax value based on scroll position
+                let parallaxValue = 0;
+                
+                if (parallaxType === 'left') {
+                    // Left side: scroll UP (negative transform)
+                    parallaxValue = scrolled * 0.15;
+                    card.style.transform = `translateY(-${parallaxValue}px)`;
+                } else if (parallaxType === 'right') {
+                    // Right side: scroll DOWN (positive transform)
+                    parallaxValue = scrolled * 0.15;
+                    card.style.transform = `translateY(${parallaxValue}px)`;
+                }
+                
+                // Also apply background position change for subtle depth effect
+                const bgParallax = scrolled * 0.05;
+                card.style.backgroundPosition = `center calc(50% + ${bgParallax}px)`;
+            });
+        }, { passive: true });
+
+        /* Auto-rotating image carousel for Projects card */
+        function initCarousel() {
+            const carouselImages = document.querySelectorAll('.carousel-image');
+            if (carouselImages.length === 0) return;
+            
+            let currentIndex = 0;
+            const imageCount = carouselImages.length;
+            const rotationInterval = 5000; // 5 seconds per image
+            
+            function rotateCarousel() {
+                // Fade out current image
+                carouselImages.forEach((img, idx) => {
+                    if (idx === currentIndex) {
+                        img.style.opacity = '0';
+                    } else if (idx === (currentIndex + 1) % imageCount) {
+                        img.style.opacity = '1';
+                    }
+                });
+                
+                // Update index
+                currentIndex = (currentIndex + 1) % imageCount;
+            }
+            
+            // Start carousel rotation
+            setInterval(rotateCarousel, rotationInterval);
+        }
+        
+        // Initialize carousel when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCarousel);
+        } else {
+            initCarousel();
+        }
     </script>
 
     <!-- Scroll to Top Button -->
