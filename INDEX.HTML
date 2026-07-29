@@ -1083,7 +1083,6 @@
     <a href="/stack.html">Tech Stack</a>
     <a href="/projects.html">Projects</a>
     <a href="/contact.html">Contact</a>
-    <a href="/admin-unlock.html">ADMIN</a>
   </div>
 </div>
 </div>
@@ -1254,12 +1253,10 @@
 
     <script>
         const PROFILE_STORAGE_KEY = 'vishwash_portfolio_profile';
-        const ADMIN_LOGIN_KEY = 'vishwash_admin_logged_in';
 
         // Load profile on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadProfile();
-            updateAdminBadge();
             loadSocialLinks();
         });
 
@@ -1278,19 +1275,6 @@
             if (profile.socialLinkedin) document.getElementById('socialLinkedin').href = profile.socialLinkedin;
             if (profile.socialGithub) document.getElementById('socialGithub').href = profile.socialGithub;
             if (profile.socialInstagram) document.getElementById('socialInstagram').href = profile.socialInstagram;
-        }
-
-        function updateAdminBadge() {
-            const adminLink = document.getElementById('adminLink');
-            if (localStorage.getItem(ADMIN_LOGIN_KEY) === 'true') {
-                adminLink.textContent = '✓ Logged In';
-                adminLink.classList.add('logged-in');
-                adminLink.href = '/edit-profile.html';
-            } else {
-                adminLink.textContent = 'Admin';
-                adminLink.classList.remove('logged-in');
-                adminLink.href = '/admin-unlock.html';
-            }
         }
 
         // Update navbar active state on scroll
